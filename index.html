@@ -1,0 +1,3025 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      BREW &amp; BITE — Modern Cafe &amp; Restaurant in Dhaka (Demo)
+    </title>
+    <meta
+      name="description"
+      content="BREW & BITE is a fictional modern cafe & restaurant concept in Dhaka, Bangladesh — coffee, international favorites, local food, bakery and healthy meals. Demo site for a course project."
+    />
+    <meta name="theme-color" content="#F7F3EA" />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="BREW & BITE — Sip. Savor. Repeat." />
+    <meta
+      property="og:description"
+      content="Good food. Great coffee. Better moments. A fictional demo restaurant website."
+    />
+    <meta
+      property="og:image"
+      content="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&h=630&q=70"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Favicon placeholder (inline SVG) -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23183B32'/%3E%3Ctext x='50' y='66' font-size='54' text-anchor='middle'%3E%E2%98%95%3C/text%3E%3C/svg%3E"
+    />
+
+    <!-- Fonts: Playfair Display (headings), Inter (body), Hind Siliguri (Bangla) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Apply saved/system theme BEFORE first paint to avoid a flash -->
+    <script>
+      (function () {
+        try {
+          var saved = JSON.parse(localStorage.getItem("bb_theme"));
+          var dark = saved
+            ? saved === "dark"
+            : window.matchMedia("(prefers-color-scheme: dark)").matches;
+          if (dark) document.documentElement.classList.add("dark");
+          document.documentElement.classList.add("js");
+        } catch (e) {
+          document.documentElement.classList.add("js");
+        }
+      })();
+    </script>
+
+    <!-- Tailwind CSS (CDN — no build step, GitHub Pages friendly) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bg: "rgb(var(--bg) / <alpha-value>)",
+              surface: "rgb(var(--surface) / <alpha-value>)",
+              ink: "rgb(var(--ink) / <alpha-value>)",
+              muted: "rgb(var(--muted) / <alpha-value>)",
+              brand: "rgb(var(--brand) / <alpha-value>)",
+              onbrand: "rgb(var(--on-brand) / <alpha-value>)",
+              accentt: "rgb(var(--accent-text) / <alpha-value>)",
+              gold: "rgb(var(--gold) / <alpha-value>)",
+              forest: "#183B32",
+              deep: "#102A25",
+              cream: "#F7F3EA",
+              ivory: "#FFFDF8",
+              terracotta: "#C76D4B",
+            },
+            fontFamily: {
+              display: ['"Playfair Display"', '"Hind Siliguri"', "serif"],
+              sans: ["Inter", '"Hind Siliguri"', "system-ui", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* ---------- Theme tokens (RGB channels so Tailwind alpha works) ---------- */
+      :root {
+        --bg: 247 243 234; /* Warm Cream  #F7F3EA */
+        --surface: 255 253 248; /* Soft Ivory  #FFFDF8 */
+        --ink: 32 41 35; /* Dark Text   #202923 */
+        --muted: 98 106 99; /* darkened Muted Text for AA contrast on cream */
+        --brand: 24 59 50; /* Forest Green #183B32 */
+        --on-brand: 247 243 234;
+        --accent-text: 164 78 48; /* Terracotta, darkened for text contrast */
+        --gold: 213 174 114; /* Muted Gold #D5AE72 */
+        --accent: 199 109 75; /* Terracotta #C76D4B */
+      }
+      html.dark {
+        --bg: 15 28 25; /* charcoal-green */
+        --surface: 24 59 50; /* Forest Green surface */
+        --ink: 247 243 234;
+        --muted: 176 186 177;
+        --brand: 213 174 114; /* gold buttons in dark mode */
+        --on-brand: 16 42 37; /* Deep Green text on gold */
+        --accent-text: 226 142 112;
+        --accent: 226 142 112;
+      }
+      html.dark .hero-glow {
+        opacity: 0.35;
+      }
+      html.lock {
+        overflow: hidden;
+      }
+      body {
+        font-family: Inter, "Hind Siliguri", system-ui, sans-serif;
+      }
+      html[lang="bn"] body {
+        line-height: 1.7;
+      }
+      :focus-visible {
+        outline: 3px solid rgb(var(--accent));
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 8px;
+        z-index: 100;
+      }
+      .skip-link:focus {
+        left: 8px;
+      }
+
+      /* Image placeholder if a remote photo fails */
+      .imgwrap {
+        position: relative;
+        background: linear-gradient(
+          135deg,
+          rgb(var(--gold) / 0.35),
+          rgb(var(--accent) / 0.25)
+        );
+        overflow: hidden;
+      }
+      .imgwrap.failed::after {
+        content: attr(data-emoji);
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font-size: 3.5rem;
+      }
+
+      /* Slide-in cart drawer & modal layers */
+      .layer {
+        visibility: hidden;
+        transition: visibility 0s linear 0.3s;
+      }
+      .layer.open {
+        visibility: visible;
+        transition-delay: 0s;
+      }
+      .layer .ov {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .layer.open .ov {
+        opacity: 1;
+      }
+      .layer .drawer {
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+      }
+      .layer.open .drawer {
+        transform: none;
+      }
+      .layer .sheet {
+        transform: translateY(24px);
+        opacity: 0;
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+      }
+      .layer.open .sheet {
+        transform: none;
+        opacity: 1;
+      }
+
+      /* FAQ accordion (grid-rows height animation) */
+      .faq-panel {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.3s ease;
+      }
+      .faq-panel.open {
+        grid-template-rows: 1fr;
+      }
+      .faq-panel > div {
+        overflow: hidden;
+      }
+      .faq-chevron {
+        transition: transform 0.3s ease;
+      }
+      [aria-expanded="true"] .faq-chevron {
+        transform: rotate(180deg);
+      }
+
+      /* Toasts */
+      .toast {
+        animation: toastIn 0.3s ease both;
+      }
+      @keyframes toastIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .bump {
+        animation: bump 0.35s ease;
+      }
+      @keyframes bump {
+        50% {
+          transform: scale(1.35);
+        }
+      }
+      .card-in {
+        animation: cardIn 0.45s ease both;
+      }
+      @keyframes cardIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* Motion only when the user allows it */
+      @media (prefers-reduced-motion: no-preference) {
+        body,
+        header,
+        section,
+        footer,
+        article,
+        .tt {
+          transition:
+            background-color 0.35s ease,
+            color 0.35s ease,
+            border-color 0.35s ease;
+        }
+        html.js .reveal {
+          opacity: 0;
+          transform: translateY(22px);
+          transition:
+            opacity 0.7s ease,
+            transform 0.7s ease;
+        }
+        html.js .reveal.in {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto !important;
+        }
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          transition-delay: 0s !important;
+        }
+      }
+      html.dark .i-moon,
+      html:not(.dark) .i-sun {
+        display: none;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body class="bg-bg text-ink antialiased">
+    <a
+      href="#main"
+      class="skip-link rounded-lg bg-brand px-4 py-2 text-onbrand"
+      data-i18n="skip"
+      >Skip to content</a
+    >
+    <noscript
+      ><p class="bg-terracotta p-3 text-center text-white">
+        Please enable JavaScript to use the menu, cart and language features.
+      </p></noscript
+    >
+
+    <!-- 1. ANNOUNCEMENT BAR -->
+    <div class="bg-deep text-cream">
+      <p
+        class="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center text-xs tracking-wide sm:text-sm"
+      >
+        <i data-ic="sparkles" class="h-4 w-4 shrink-0 text-gold"></i>
+        <span data-i18n="ann"
+          >Fresh Flavors, Better Moments — Discover Our Signature Menu.</span
+        >
+      </p>
+    </div>
+
+    <!-- 2. NAVIGATION -->
+    <header
+      id="siteHeader"
+      class="sticky top-0 z-40 border-b border-ink/10 bg-bg/85 backdrop-blur-md"
+    >
+      <nav
+        class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8"
+        aria-label="Main"
+      >
+        <a
+          href="#home"
+          class="flex items-center gap-2.5"
+          aria-label="BREW &amp; BITE — Home"
+        >
+          <span
+            class="grid h-9 w-9 place-items-center rounded-full bg-forest text-gold"
+            ><i data-ic="coffee" class="h-5 w-5"></i
+          ></span>
+          <span
+            class="font-display text-xl font-semibold tracking-wide sm:text-2xl"
+            >BREW <span class="text-accentt">&amp;</span> BITE</span
+          >
+        </a>
+
+        <ul class="hidden items-center gap-1 lg:flex" id="navLinks">
+          <li>
+            <a
+              class="nav-link rounded-full px-4 py-2 text-sm font-medium hover:bg-ink/5"
+              href="#home"
+              data-i18n="nav_home"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              class="nav-link rounded-full px-4 py-2 text-sm font-medium hover:bg-ink/5"
+              href="#about"
+              data-i18n="nav_about"
+              >About</a
+            >
+          </li>
+          <li>
+            <a
+              class="nav-link rounded-full px-4 py-2 text-sm font-medium hover:bg-ink/5"
+              href="#menu"
+              data-i18n="nav_menu"
+              >Menu</a
+            >
+          </li>
+          <li>
+            <a
+              class="nav-link rounded-full px-4 py-2 text-sm font-medium hover:bg-ink/5"
+              href="#offers"
+              data-i18n="nav_offers"
+              >Offers</a
+            >
+          </li>
+          <li>
+            <a
+              class="nav-link rounded-full px-4 py-2 text-sm font-medium hover:bg-ink/5"
+              href="#reviews"
+              data-i18n="nav_reviews"
+              >Reviews</a
+            >
+          </li>
+          <li>
+            <a
+              class="nav-link rounded-full px-4 py-2 text-sm font-medium hover:bg-ink/5"
+              href="#contact"
+              data-i18n="nav_contact"
+              >Contact</a
+            >
+          </li>
+        </ul>
+
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            data-action="toggle-lang"
+            class="flex h-11 items-center gap-1 rounded-full border border-ink/15 px-3 text-sm"
+            data-i18n-aria="lang_aria"
+            aria-label="Switch language"
+          >
+            <span id="lgEn" class="font-semibold">EN</span
+            ><span class="opacity-40">|</span
+            ><span id="lgBn" class="opacity-60">বাং</span>
+          </button>
+          <button
+            type="button"
+            data-action="toggle-theme"
+            class="grid h-11 w-11 place-items-center rounded-full border border-ink/15"
+            data-i18n-aria="theme_aria"
+            aria-label="Toggle dark and light theme"
+          >
+            <i data-ic="moon" class="i-moon h-5 w-5"></i
+            ><i data-ic="sun" class="i-sun h-5 w-5"></i>
+          </button>
+          <button
+            type="button"
+            data-action="open-cart"
+            id="cartBtn"
+            class="relative grid h-11 w-11 place-items-center rounded-full bg-brand text-onbrand"
+            data-i18n-aria="cart_aria"
+            aria-label="Open cart"
+          >
+            <i data-ic="bag" class="h-5 w-5"></i>
+            <span
+              id="cartBadge"
+              class="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-[#B25A3A] px-1 text-[11px] font-bold text-white"
+              >0</span
+            >
+          </button>
+          <button
+            type="button"
+            data-action="toggle-menu"
+            id="menuBtn"
+            class="grid h-11 w-11 place-items-center rounded-full border border-ink/15 lg:hidden"
+            aria-expanded="false"
+            aria-controls="mobileNav"
+            data-i18n-aria="menu_aria"
+            aria-label="Open menu"
+          >
+            <i data-ic="menu" class="h-5 w-5" id="icMenu"></i
+            ><i data-ic="x" class="hidden h-5 w-5" id="icClose"></i>
+          </button>
+        </div>
+      </nav>
+      <div id="mobileNav" class="hidden border-t border-ink/10 bg-bg lg:hidden">
+        <ul class="mx-auto grid max-w-7xl gap-1 px-4 py-3 sm:px-6">
+          <li>
+            <a
+              class="mnav block rounded-xl px-4 py-3 font-medium hover:bg-ink/5"
+              href="#home"
+              data-i18n="nav_home"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              class="mnav block rounded-xl px-4 py-3 font-medium hover:bg-ink/5"
+              href="#about"
+              data-i18n="nav_about"
+              >About</a
+            >
+          </li>
+          <li>
+            <a
+              class="mnav block rounded-xl px-4 py-3 font-medium hover:bg-ink/5"
+              href="#menu"
+              data-i18n="nav_menu"
+              >Menu</a
+            >
+          </li>
+          <li>
+            <a
+              class="mnav block rounded-xl px-4 py-3 font-medium hover:bg-ink/5"
+              href="#offers"
+              data-i18n="nav_offers"
+              >Offers</a
+            >
+          </li>
+          <li>
+            <a
+              class="mnav block rounded-xl px-4 py-3 font-medium hover:bg-ink/5"
+              href="#reviews"
+              data-i18n="nav_reviews"
+              >Reviews</a
+            >
+          </li>
+          <li>
+            <a
+              class="mnav block rounded-xl px-4 py-3 font-medium hover:bg-ink/5"
+              href="#contact"
+              data-i18n="nav_contact"
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- 3. HERO -->
+      <section id="home" class="relative scroll-mt-28 overflow-hidden">
+        <div
+          class="hero-glow pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full bg-gold/30 blur-3xl"
+          aria-hidden="true"
+        ></div>
+        <div
+          class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 pb-16 pt-10 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:pb-24 lg:pt-16"
+        >
+          <div class="reveal">
+            <p
+              class="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-surface px-4 py-1.5 text-xs font-semibold uppercase tracking-[.18em] text-accentt"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-[#C76D4B]"></span
+              ><span data-i18n="hero_kicker"
+                >Modern Cafe &amp; Restaurant · Dhaka</span
+              >
+            </p>
+            <h1
+              class="mt-6 font-display text-[2.6rem] font-semibold leading-[1.08] sm:text-6xl lg:text-7xl"
+            >
+              <span class="block" data-i18n="h1a">Good Food.</span>
+              <span class="block" data-i18n="h1b">Great Coffee.</span>
+              <span class="block italic text-accentt" data-i18n="h1c"
+                >Better Moments.</span
+              >
+            </h1>
+            <p
+              class="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg"
+              data-i18n="hero_p"
+            >
+              BREW &amp; BITE brings specialty coffee, international favorites,
+              local flavors, fresh bakes and healthy plates together under one
+              warm roof.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a
+                href="#menu"
+                class="inline-flex h-12 items-center gap-2 rounded-full bg-brand px-7 font-semibold text-onbrand shadow-lg shadow-brand/20 transition hover:-translate-y-0.5"
+                ><span data-i18n="btn_explore">Explore Menu</span
+                ><i data-ic="arrow" class="h-4 w-4"></i
+              ></a>
+              <button
+                type="button"
+                data-action="order-now"
+                class="inline-flex h-12 items-center rounded-full border-2 border-brand px-7 font-semibold transition hover:bg-brand hover:text-onbrand"
+                data-i18n="btn_order"
+              >
+                Order Now
+              </button>
+            </div>
+            <ul
+              class="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-ink/10 pt-6"
+            >
+              <li>
+                <p class="font-display text-3xl font-semibold" id="stCount">
+                  30+
+                </p>
+                <p class="mt-1 text-xs text-muted sm:text-sm" data-i18n="hl1">
+                  Menu items
+                </p>
+              </li>
+              <li>
+                <p class="font-display text-3xl font-semibold">6</p>
+                <p class="mt-1 text-xs text-muted sm:text-sm" data-i18n="hl2">
+                  Food categories
+                </p>
+              </li>
+              <li>
+                <p class="font-display text-3xl font-semibold" data-i18n="hl3n">
+                  2-way
+                </p>
+                <p class="mt-1 text-xs text-muted sm:text-sm" data-i18n="hl3">
+                  Delivery &amp; pickup
+                </p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="reveal relative mx-auto w-full max-w-lg lg:max-w-none">
+            <div
+              class="imgwrap aspect-[4/5] rounded-[2rem] shadow-2xl shadow-black/20 sm:aspect-[5/6]"
+              data-emoji="☕"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1000&h=1200&q=75"
+                width="1000"
+                height="1200"
+                fetchpriority="high"
+                alt="A beautifully plated restaurant dish on a dark table"
+                class="h-full w-full object-cover"
+                onerror="imgFail(this)"
+              />
+            </div>
+            <div
+              class="absolute -bottom-6 -left-2 flex items-center gap-3 rounded-2xl border border-ink/10 bg-surface p-3 pr-4 shadow-xl sm:-left-8"
+            >
+              <span
+                class="imgwrap h-14 w-14 shrink-0 rounded-xl"
+                data-emoji="☕"
+                ><img
+                  src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=160&h=160&q=70"
+                  width="160"
+                  height="160"
+                  alt="Spanish Latte in a glass"
+                  class="h-full w-full object-cover"
+                  onerror="imgFail(this)"
+              /></span>
+              <div>
+                <p
+                  class="text-[11px] font-semibold uppercase tracking-widest text-accentt"
+                  data-i18n="hero_pick"
+                >
+                  Signature pick
+                </p>
+                <p class="font-display text-lg leading-tight" id="heroPickName">
+                  Spanish Latte
+                </p>
+                <button
+                  type="button"
+                  data-action="add"
+                  data-id="c4"
+                  class="mt-1 text-sm font-semibold underline underline-offset-4"
+                  id="heroPickBtn"
+                >
+                  ৳280 · Add
+                </button>
+              </div>
+            </div>
+            <div
+              class="absolute -right-2 top-6 hidden rotate-6 rounded-full bg-gold px-5 py-3 text-center font-display text-[#102A25] shadow-lg sm:block lg:-right-5"
+            >
+              <p
+                class="text-sm font-semibold leading-tight"
+                data-i18n="tagline_a"
+              >
+                Sip. Savor.
+              </p>
+              <p class="text-sm italic leading-tight" data-i18n="tagline_b">
+                Repeat.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. ABOUT -->
+      <section id="about" class="scroll-mt-28 bg-surface py-20 lg:py-28">
+        <div
+          class="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:gap-20 lg:px-8"
+        >
+          <div class="reveal relative pb-10">
+            <div
+              class="imgwrap aspect-[4/5] w-4/5 rounded-[2rem] shadow-xl"
+              data-emoji="🍽️"
+            >
+              <img
+                loading="lazy"
+                src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&h=1000&q=70"
+                width="800"
+                height="1000"
+                alt="Warm, welcoming restaurant interior with wooden tables"
+                class="h-full w-full object-cover"
+                onerror="imgFail(this)"
+              />
+            </div>
+            <div
+              class="imgwrap absolute bottom-0 right-0 aspect-square w-1/2 rounded-[2rem] border-8 border-surface shadow-xl"
+              data-emoji="☕"
+            >
+              <img
+                loading="lazy"
+                src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&h=600&q=70"
+                width="600"
+                height="600"
+                alt="Cappuccino with latte art next to a pastry"
+                class="h-full w-full object-cover"
+                onerror="imgFail(this)"
+              />
+            </div>
+          </div>
+          <div class="reveal">
+            <p
+              class="text-xs font-semibold uppercase tracking-[.2em] text-accentt"
+              data-i18n="about_kicker"
+            >
+              Our Story
+            </p>
+            <h2
+              class="mt-3 font-display text-3xl font-semibold leading-tight sm:text-5xl"
+              data-i18n="about_h2"
+            >
+              A table for every mood, a cup for every moment.
+            </h2>
+            <p class="mt-6 leading-relaxed text-muted" data-i18n="about_p1"></p>
+            <p class="mt-4 leading-relaxed text-muted" data-i18n="about_p2"></p>
+            <ul class="mt-8 grid gap-4 sm:grid-cols-3" id="aboutPoints"></ul>
+            <p
+              class="mt-8 rounded-2xl border border-dashed border-ink/20 p-4 text-sm text-muted"
+              data-i18n="about_note"
+            ></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. MENU -->
+      <section id="menu" class="scroll-mt-28 py-20 lg:py-28">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="reveal mx-auto max-w-2xl text-center">
+            <p
+              class="text-xs font-semibold uppercase tracking-[.2em] text-accentt"
+              data-i18n="menu_kicker"
+            >
+              Our Menu
+            </p>
+            <h2
+              class="mt-3 font-display text-3xl font-semibold sm:text-5xl"
+              data-i18n="menu_h2"
+            >
+              Something delicious for everyone
+            </h2>
+            <p class="mt-4 text-muted" data-i18n="menu_sub">
+              Demo items and prices for illustration only.
+            </p>
+          </div>
+          <div
+            id="menuTabs"
+            class="mt-10 flex flex-wrap justify-center gap-2"
+            role="group"
+            data-i18n-aria="menu_filter_aria"
+            aria-label="Filter menu by category"
+          ></div>
+          <div
+            id="menuGrid"
+            class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            aria-live="polite"
+          ></div>
+        </div>
+      </section>
+
+      <!-- 9. OFFERS -->
+      <section id="offers" class="scroll-mt-28 bg-surface py-20 lg:py-28">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div
+            class="reveal flex flex-col items-start justify-between gap-4 md:flex-row md:items-end"
+          >
+            <div>
+              <p
+                class="text-xs font-semibold uppercase tracking-[.2em] text-accentt"
+                data-i18n="off_kicker"
+              >
+                Special Offers
+              </p>
+              <h2
+                class="mt-3 font-display text-3xl font-semibold sm:text-5xl"
+                data-i18n="off_h2"
+              >
+                Deals worth sharing
+              </h2>
+            </div>
+            <p class="max-w-sm text-sm text-muted" data-i18n="off_demo"></p>
+          </div>
+          <div
+            id="offerGrid"
+            class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          ></div>
+          <p class="mt-8 text-center text-sm text-muted">
+            <span data-i18n="coupon_codes">Demo coupon codes:</span>
+            <code class="rounded bg-ink/10 px-2 py-0.5 font-semibold"
+              >WELCOME10</code
+            >
+            <code class="rounded bg-ink/10 px-2 py-0.5 font-semibold"
+              >BREW50</code
+            >
+            <code class="rounded bg-ink/10 px-2 py-0.5 font-semibold"
+              >STUDENT15</code
+            >
+          </p>
+        </div>
+      </section>
+
+      <!-- 10. WHY CHOOSE US -->
+      <section id="why" class="scroll-mt-28 py-20 lg:py-28">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="reveal mx-auto max-w-2xl text-center">
+            <p
+              class="text-xs font-semibold uppercase tracking-[.2em] text-accentt"
+              data-i18n="why_kicker"
+            >
+              Why BREW &amp; BITE
+            </p>
+            <h2
+              class="mt-3 font-display text-3xl font-semibold sm:text-5xl"
+              data-i18n="why_h2"
+            >
+              Made to be enjoyed
+            </h2>
+          </div>
+          <ul
+            id="whyGrid"
+            class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5"
+          ></ul>
+        </div>
+      </section>
+
+      <!-- 11. REVIEWS -->
+      <section id="reviews" class="scroll-mt-28 bg-surface py-20 lg:py-28">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="reveal mx-auto max-w-2xl text-center">
+            <p
+              class="text-xs font-semibold uppercase tracking-[.2em] text-accentt"
+              data-i18n="rev_kicker"
+            >
+              Reviews
+            </p>
+            <h2
+              class="mt-3 font-display text-3xl font-semibold sm:text-5xl"
+              data-i18n="rev_h2"
+            >
+              Kind words (demo)
+            </h2>
+            <p class="mt-4 text-sm text-muted" data-i18n="rev_note"></p>
+          </div>
+          <div id="reviewGrid" class="mt-12 grid gap-6 md:grid-cols-3"></div>
+        </div>
+      </section>
+
+      <!-- 12. FAQ -->
+      <section id="faq" class="scroll-mt-28 py-20 lg:py-28">
+        <div class="mx-auto max-w-3xl px-4 sm:px-6">
+          <div class="reveal text-center">
+            <p
+              class="text-xs font-semibold uppercase tracking-[.2em] text-accentt"
+              data-i18n="faq_kicker"
+            >
+              FAQ
+            </p>
+            <h2
+              class="mt-3 font-display text-3xl font-semibold sm:text-5xl"
+              data-i18n="faq_h2"
+            >
+              Good to know
+            </h2>
+          </div>
+          <div id="faqList" class="mt-10 space-y-3"></div>
+        </div>
+      </section>
+
+      <!-- 13. CONTACT -->
+      <section
+        id="contact"
+        class="scroll-mt-28 px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28"
+      >
+        <div
+          class="mx-auto grid max-w-7xl overflow-hidden rounded-[2rem] bg-forest text-cream shadow-2xl lg:grid-cols-2"
+        >
+          <div class="p-8 sm:p-12">
+            <p
+              class="text-xs font-semibold uppercase tracking-[.2em] text-gold"
+              data-i18n="con_kicker"
+            >
+              Visit &amp; Contact
+            </p>
+            <h2
+              class="mt-3 font-display text-3xl font-semibold sm:text-4xl"
+              data-i18n="con_h2"
+            >
+              Come say hello
+            </h2>
+            <p class="mt-4 text-cream/80" data-i18n="con_sub"></p>
+            <ul id="contactList" class="mt-8 space-y-5"></ul>
+            <div class="mt-8 flex gap-3" id="contactSocial"></div>
+          </div>
+          <div class="bg-ivory p-8 text-[#202923] sm:p-12">
+            <h3
+              class="font-display text-2xl font-semibold"
+              data-i18n="con_form_h"
+            >
+              Send us a message
+            </h3>
+            <form id="contactForm" class="mt-6 space-y-4" novalidate>
+              <div>
+                <label
+                  for="cfName"
+                  class="mb-1 block text-sm font-medium"
+                  data-i18n="f_name"
+                  >Full name</label
+                >
+                <input
+                  id="cfName"
+                  required
+                  class="h-12 w-full rounded-xl border border-[#202923]/20 bg-white px-4 text-[#202923]"
+                  autocomplete="name"
+                />
+              </div>
+              <div>
+                <label
+                  for="cfMsg"
+                  class="mb-1 block text-sm font-medium"
+                  data-i18n="f_msg"
+                  >Message</label
+                >
+                <textarea
+                  id="cfMsg"
+                  required
+                  rows="4"
+                  class="w-full rounded-xl border border-[#202923]/20 bg-white px-4 py-3 text-[#202923]"
+                ></textarea>
+              </div>
+              <p
+                id="cfErr"
+                class="min-h-5 text-sm font-medium text-[#A33A1E]"
+                role="alert"
+              ></p>
+              <button
+                type="submit"
+                class="h-12 w-full rounded-full bg-forest font-semibold text-cream transition hover:bg-deep"
+                data-i18n="con_send"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 14. FOOTER -->
+    <footer class="bg-deep text-cream">
+      <div
+        class="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8"
+      >
+        <div>
+          <p
+            class="flex items-center gap-2.5 font-display text-2xl font-semibold"
+          >
+            <span
+              class="grid h-9 w-9 place-items-center rounded-full bg-forest text-gold"
+              ><i data-ic="coffee" class="h-5 w-5"></i></span
+            >BREW <span class="text-gold">&amp;</span> BITE
+          </p>
+          <p
+            class="mt-4 font-display text-lg italic text-gold"
+            data-i18n="tagline"
+          >
+            Sip. Savor. Repeat.
+          </p>
+          <div class="mt-6 flex gap-3" id="footSocial"></div>
+        </div>
+        <nav aria-labelledby="fl1">
+          <h3 id="fl1" class="font-semibold text-gold" data-i18n="foot_links">
+            Explore
+          </h3>
+          <ul class="mt-4 space-y-2 text-sm text-cream/80" id="footLinks"></ul>
+        </nav>
+        <nav aria-labelledby="fl2">
+          <h3 id="fl2" class="font-semibold text-gold" data-i18n="foot_cats">
+            Menu
+          </h3>
+          <ul class="mt-4 space-y-2 text-sm text-cream/80" id="footCats"></ul>
+        </nav>
+        <div>
+          <h3 class="font-semibold text-gold" data-i18n="foot_news">
+            Newsletter (demo)
+          </h3>
+          <p class="mt-4 text-sm text-cream/80" data-i18n="foot_news_p"></p>
+          <form id="newsForm" class="mt-4 flex gap-2" novalidate>
+            <label for="newsEmail" class="sr-only" data-i18n="f_email_s"
+              >Email address</label
+            >
+            <input
+              id="newsEmail"
+              type="email"
+              class="h-11 min-w-0 flex-1 rounded-full border border-cream/25 bg-white/10 px-4 text-sm text-cream placeholder:text-cream/60"
+              data-i18n-ph="news_ph"
+              placeholder="Your email"
+            />
+            <button
+              class="h-11 rounded-full bg-gold px-5 text-sm font-semibold text-[#102A25]"
+              data-i18n="subscribe"
+            >
+              Subscribe
+            </button>
+          </form>
+          <p
+            id="newsMsg"
+            class="mt-2 min-h-5 text-xs text-cream/80"
+            role="status"
+          ></p>
+        </div>
+      </div>
+      <div class="border-t border-cream/10">
+        <p
+          class="mx-auto max-w-7xl px-4 py-6 text-center text-xs leading-relaxed text-cream/70 sm:px-6"
+          data-i18n="copyright"
+        ></p>
+      </div>
+    </footer>
+
+    <!-- CART DRAWER -->
+    <div id="cartLayer" class="layer fixed inset-0 z-50" aria-hidden="true">
+      <div
+        class="ov absolute inset-0 bg-black/55"
+        data-action="close-cart"
+      ></div>
+      <aside
+        id="cartPanel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cartTitle"
+        tabindex="-1"
+        class="drawer absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-bg shadow-2xl outline-none"
+      >
+        <div
+          class="flex items-center justify-between border-b border-ink/10 px-5 py-4"
+        >
+          <h2
+            id="cartTitle"
+            class="font-display text-2xl font-semibold"
+            data-i18n="cart_title"
+          >
+            Your Cart
+          </h2>
+          <button
+            type="button"
+            data-action="close-cart"
+            class="grid h-11 w-11 place-items-center rounded-full hover:bg-ink/10"
+            data-i18n-aria="close"
+            aria-label="Close"
+          >
+            <i data-ic="x" class="h-5 w-5"></i>
+          </button>
+        </div>
+        <div
+          id="cartEmpty"
+          class="flex flex-1 flex-col items-center justify-center gap-3 p-8 text-center"
+        >
+          <span
+            class="grid h-20 w-20 place-items-center rounded-full bg-ink/5 text-muted"
+            ><i data-ic="bag" class="h-9 w-9"></i
+          ></span>
+          <p class="font-display text-xl" data-i18n="cart_empty">
+            Your cart is empty
+          </p>
+          <p class="text-sm text-muted" data-i18n="cart_empty_sub"></p>
+          <button
+            type="button"
+            data-action="browse"
+            class="mt-2 h-11 rounded-full bg-brand px-6 font-semibold text-onbrand"
+            data-i18n="cart_browse"
+          >
+            Browse Menu
+          </button>
+        </div>
+        <ul
+          id="cartItems"
+          class="flex-1 space-y-4 overflow-y-auto px-5 py-4"
+        ></ul>
+        <div
+          id="cartFoot"
+          class="space-y-4 border-t border-ink/10 bg-surface px-5 py-5"
+        >
+          <div>
+            <form id="couponForm" class="flex gap-2" novalidate>
+              <label for="couponInput" class="sr-only" data-i18n="coupon_label"
+                >Coupon code</label
+              >
+              <input
+                id="couponInput"
+                autocomplete="off"
+                autocapitalize="characters"
+                class="h-11 min-w-0 flex-1 rounded-full border border-ink/20 bg-bg px-4 text-sm uppercase placeholder:normal-case"
+                data-i18n-ph="coupon_ph"
+                placeholder="Coupon code"
+              />
+              <button
+                type="submit"
+                class="h-11 rounded-full border-2 border-brand px-5 text-sm font-semibold hover:bg-brand hover:text-onbrand"
+                data-i18n="apply"
+              >
+                Apply
+              </button>
+            </form>
+            <div
+              id="couponApplied"
+              class="hidden items-center justify-between rounded-full bg-brand/10 py-1.5 pl-4 pr-2 text-sm"
+            >
+              <span class="flex items-center gap-2 font-semibold"
+                ><i data-ic="tag" class="h-4 w-4"></i
+                ><span id="couponName"></span
+              ></span>
+              <button
+                type="button"
+                data-action="remove-coupon"
+                class="h-8 rounded-full px-3 text-xs font-semibold underline"
+                data-i18n="remove"
+              >
+                Remove
+              </button>
+            </div>
+            <p
+              id="couponMsg"
+              class="mt-2 min-h-4 text-xs font-medium"
+              role="status"
+            ></p>
+          </div>
+          <div id="cartTotals"></div>
+          <button
+            type="button"
+            data-action="checkout"
+            class="h-12 w-full rounded-full bg-brand font-semibold text-onbrand shadow-lg shadow-brand/20 transition hover:-translate-y-0.5"
+            data-i18n="checkout"
+          >
+            Checkout
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- CHECKOUT MODAL -->
+    <div
+      id="checkoutLayer"
+      class="layer fixed inset-0 z-[60] overflow-y-auto"
+      aria-hidden="true"
+    >
+      <div
+        class="ov fixed inset-0 bg-black/60"
+        data-action="close-checkout"
+      ></div>
+      <div
+        id="checkoutPanel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="coTitle"
+        tabindex="-1"
+        class="sheet relative mx-auto my-4 w-[calc(100%-1.5rem)] max-w-4xl rounded-[1.75rem] bg-bg p-5 shadow-2xl outline-none sm:my-10 sm:p-8"
+      >
+        <div class="mb-5 flex items-center justify-between">
+          <h2
+            id="coTitle"
+            class="font-display text-2xl font-semibold sm:text-3xl"
+            data-i18n="co_title"
+          >
+            Checkout
+          </h2>
+          <button
+            type="button"
+            data-action="close-checkout"
+            class="grid h-11 w-11 place-items-center rounded-full hover:bg-ink/10"
+            data-i18n-aria="close"
+            aria-label="Close"
+          >
+            <i data-ic="x" class="h-5 w-5"></i>
+          </button>
+        </div>
+
+        <div id="coFormView">
+          <p
+            class="mb-6 flex gap-2 rounded-2xl bg-gold/25 p-3 text-sm"
+            role="note"
+          >
+            <i data-ic="info" class="mt-0.5 h-4 w-4 shrink-0"></i
+            ><span data-i18n="demo_banner"></span>
+          </p>
+          <div class="grid gap-8 md:grid-cols-5">
+            <form id="checkoutForm" class="space-y-5 md:col-span-3" novalidate>
+              <div>
+                <label
+                  for="coName"
+                  class="mb-1 block text-sm font-medium"
+                  data-i18n="co_name"
+                  >Full name</label
+                >
+                <input
+                  id="coName"
+                  autocomplete="name"
+                  aria-describedby="eName"
+                  class="h-12 w-full rounded-xl border border-ink/20 bg-surface px-4"
+                />
+                <p
+                  id="eName"
+                  class="mt-1 min-h-4 text-xs font-medium text-[#B3361A] dark:text-red-300"
+                ></p>
+              </div>
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label
+                    for="coPhone"
+                    class="mb-1 block text-sm font-medium"
+                    data-i18n="co_phone"
+                    >Phone number</label
+                  >
+                  <input
+                    id="coPhone"
+                    type="tel"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    placeholder="01XXXXXXXXX"
+                    aria-describedby="ePhone"
+                    class="h-12 w-full rounded-xl border border-ink/20 bg-surface px-4"
+                  />
+                  <p
+                    id="ePhone"
+                    class="mt-1 min-h-4 text-xs font-medium text-[#B3361A]"
+                  ></p>
+                </div>
+                <div>
+                  <label
+                    for="coEmail"
+                    class="mb-1 block text-sm font-medium"
+                    data-i18n="co_email"
+                    >Email (optional)</label
+                  >
+                  <input
+                    id="coEmail"
+                    type="email"
+                    autocomplete="email"
+                    aria-describedby="eEmail"
+                    class="h-12 w-full rounded-xl border border-ink/20 bg-surface px-4"
+                  />
+                  <p
+                    id="eEmail"
+                    class="mt-1 min-h-4 text-xs font-medium text-[#B3361A]"
+                  ></p>
+                </div>
+              </div>
+              <fieldset>
+                <legend class="mb-2 text-sm font-medium" data-i18n="co_type">
+                  Order type
+                </legend>
+                <div class="grid grid-cols-2 gap-3" id="typeOpts"></div>
+              </fieldset>
+              <div id="addrWrap">
+                <label
+                  for="coAddr"
+                  class="mb-1 block text-sm font-medium"
+                  data-i18n="co_addr"
+                  >Delivery address</label
+                >
+                <textarea
+                  id="coAddr"
+                  rows="3"
+                  autocomplete="street-address"
+                  aria-describedby="eAddr"
+                  class="w-full rounded-xl border border-ink/20 bg-surface px-4 py-3"
+                ></textarea>
+                <p
+                  id="eAddr"
+                  class="mt-1 min-h-4 text-xs font-medium text-[#B3361A]"
+                ></p>
+              </div>
+              <fieldset>
+                <legend class="mb-2 text-sm font-medium" data-i18n="co_pay">
+                  Payment method
+                </legend>
+                <div class="grid gap-3 sm:grid-cols-2" id="payOpts"></div>
+                <p
+                  id="payNote"
+                  class="mt-3 rounded-xl bg-ink/5 p-3 text-xs leading-relaxed text-muted"
+                ></p>
+              </fieldset>
+              <button
+                type="submit"
+                class="h-12 w-full rounded-full bg-brand font-semibold text-onbrand shadow-lg shadow-brand/20 transition hover:-translate-y-0.5"
+                data-i18n="co_place"
+              >
+                Place Order
+              </button>
+            </form>
+            <aside class="md:col-span-2">
+              <div
+                class="rounded-2xl border border-ink/10 bg-surface p-5 md:sticky md:top-4"
+              >
+                <h3
+                  class="font-display text-xl font-semibold"
+                  data-i18n="co_summary"
+                >
+                  Order summary
+                </h3>
+                <ul
+                  id="coItems"
+                  class="mt-4 space-y-2 border-b border-ink/10 pb-4 text-sm"
+                ></ul>
+                <div id="coTotals" class="mt-4"></div>
+              </div>
+            </aside>
+          </div>
+        </div>
+
+        <div
+          id="coDoneView"
+          class="hidden py-6 text-center"
+          aria-live="polite"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Toasts -->
+    <div
+      id="toasts"
+      class="pointer-events-none fixed inset-x-0 bottom-4 z-[70] flex flex-col items-center gap-2 px-4"
+      aria-live="polite"
+      aria-atomic="false"
+    ></div>
+
+    <script>
+      /* =====================================================================
+   BREW & BITE — Vanilla JS (no dependencies)
+   Sections: 1 Utils · 2 Icons · 3 i18n · 4 Menu data · 5 State & totals
+             6 Renderers · 7 Cart & coupons · 8 Checkout · 9 UI wiring
+   ===================================================================== */
+      (() => {
+        "use strict";
+
+        /* ---------------------------- 1. UTILS ---------------------------- */
+        const $ = (s, r = document) => r.querySelector(s);
+        const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+        const store = {
+          get(k, d) {
+            try {
+              const v = localStorage.getItem(k);
+              return v === null ? d : JSON.parse(v);
+            } catch {
+              return d;
+            }
+          },
+          set(k, v) {
+            try {
+              localStorage.setItem(k, JSON.stringify(v));
+            } catch {
+              /* storage unavailable */
+            }
+          },
+        };
+        const BN_DIGITS = "০১২৩৪৫৬৭৮৯";
+        const DELIVERY_FEE = 60,
+          FREE_DELIVERY_MIN = 1000;
+        const COUPONS = {
+          WELCOME10: { type: "pct", v: 10 },
+          BREW50: { type: "flat", v: 50 },
+          STUDENT15: { type: "pct", v: 15 },
+        };
+        window.imgFail = (img) => {
+          img.parentElement.classList.add("failed");
+          img.remove();
+        };
+
+        /* ----------------------------- 2. ICONS --------------------------- */
+        const ICONS = {
+          bag: '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>',
+          sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+          moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+          menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+          x: '<path d="M18 6 6 18M6 6l12 12"/>',
+          plus: '<path d="M12 5v14M5 12h14"/>',
+          minus: '<path d="M5 12h14"/>',
+          trash:
+            '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/>',
+          star: '<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2Z"/>',
+          leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/><path d="M2 21c0-3 1.9-5.7 5-7"/>',
+          coffee:
+            '<path d="M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8ZM6 2v2M10 2v2M14 2v2"/>',
+          utensils:
+            '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+          smile:
+            '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/>',
+          phone:
+            '<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>',
+          call: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/>',
+          pin: '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+          mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+          clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+          check: '<path d="M20 6 9 17l-5-5"/>',
+          tag: '<path d="M12 2H2v10l9.3 9.3a1 1 0 0 0 1.4 0l8.6-8.6a1 1 0 0 0 0-1.4L12 2Z"/><path d="M7 7h.01"/>',
+          truck:
+            '<path d="M1 3h15v13H1zM16 8h4l3 3v5h-7zM5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>',
+          chevron: '<path d="m6 9 6 6 6-6"/>',
+          arrow: '<path d="M5 12h14M12 5l7 7-7 7"/>',
+          instagram:
+            '<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
+          facebook:
+            '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3Z"/>',
+          youtube:
+            '<path d="M22.5 7.2a3 3 0 0 0-2.1-2.1C18.5 4.6 12 4.6 12 4.6s-6.5 0-8.4.5A3 3 0 0 0 1.5 7.2 31 31 0 0 0 1 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.4.5 8.4.5s6.5 0 8.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23 12a31 31 0 0 0-.5-4.8Z"/><path d="m10 15 5-3-5-3z"/>',
+          sparkles:
+            '<path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z"/>',
+          gift: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/>',
+          info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+        };
+        const ic = (name, cls = "h-5 w-5", fill = false) =>
+          `<svg class="${cls}" viewBox="0 0 24 24" fill="${fill ? "currentColor" : "none"}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICONS[name] || ""}</svg>`;
+        const hydrateIcons = (root = document) =>
+          $$("i[data-ic]", root).forEach((el) => {
+            const tmp = document.createElement("div");
+            tmp.innerHTML = ic(el.dataset.ic, el.className);
+            const svg = tmp.firstChild;
+            if (el.id) svg.id = el.id;
+            el.replaceWith(svg);
+          });
+
+        /* ----------------------------- 3. I18N ---------------------------- */
+        const I18N = {
+          en: {
+            meta_title:
+              "BREW & BITE — Modern Cafe & Restaurant in Dhaka (Demo)",
+            skip: "Skip to content",
+            ann: "Fresh Flavors, Better Moments — Discover Our Signature Menu.",
+            nav_home: "Home",
+            nav_about: "About",
+            nav_menu: "Menu",
+            nav_offers: "Offers",
+            nav_reviews: "Reviews",
+            nav_contact: "Contact",
+            lang_aria: "Switch language to Bangla",
+            theme_aria: "Toggle dark and light theme",
+            cart_aria: "Open cart",
+            menu_aria: "Open menu",
+            close: "Close",
+            hero_kicker: "Modern Cafe & Restaurant · Dhaka",
+            h1a: "Good Food.",
+            h1b: "Great Coffee.",
+            h1c: "Better Moments.",
+            hero_p:
+              "BREW & BITE brings specialty coffee, international favorites, local flavors, fresh bakes and healthy plates together under one warm roof.",
+            btn_explore: "Explore Menu",
+            btn_order: "Order Now",
+            hl1: "Menu items",
+            hl2: "Food categories",
+            hl3n: "2-way",
+            hl3: "Delivery & pickup",
+            hero_pick: "Signature pick",
+            tagline: "Sip. Savor. Repeat.",
+            tagline_a: "Sip. Savor.",
+            tagline_b: "Repeat.",
+            about_kicker: "Our Story",
+            about_h2: "A table for every mood, a cup for every moment.",
+            about_p1:
+              "BREW & BITE is a concept cafe & restaurant imagined for Dhaka — a place where a morning espresso, a family biryani lunch and an evening pasta date all feel right at home.",
+            about_p2:
+              "We believe in honest ingredients, generous variety and a room that makes you want to stay a little longer. Every plate and every cup is meant to turn an ordinary hour into a memorable one.",
+            ap1: "Quality ingredients",
+            ap1d: "Fresh, carefully chosen produce.",
+            ap2: "Wide variety",
+            ap2d: "Coffee, bakes, global and local plates.",
+            ap3: "Memorable dining",
+            ap3d: "A warm space made for moments.",
+            about_note:
+              "BREW & BITE is a fictional brand created for a course project. Details on this page are proposed concepts, not verified facts.",
+            menu_kicker: "Our Menu",
+            menu_h2: "Something delicious for everyone",
+            menu_sub:
+              "Demo items and prices for illustration only — not real restaurant prices.",
+            menu_filter_aria: "Filter menu by category",
+            all: "All",
+            c_coffee: "Coffee & Beverages",
+            c_burger: "Burger & Sandwich",
+            c_pizza: "Pizza & Pasta",
+            c_dessert: "Desserts & Bakery",
+            c_bd: "Bangladeshi Food",
+            c_healthy: "Healthy Food & Salad",
+            bestseller: "Bestseller",
+            add: "Add to Cart",
+            add_aria: "Add {name} to cart",
+            hero_add: "Add",
+            off_kicker: "Special Offers",
+            off_h2: "Deals worth sharing",
+            off_demo:
+              "Demo offers created for the course project — not real promotions.",
+            coupon_codes: "Demo coupon codes:",
+            ot1: "Combo",
+            o1: "Burger & Brew Combo",
+            o1d: "Classic Beef Burger + Iced Coffee, together in one tap.",
+            ob1: "Add combo",
+            ot2: "Coffee Deal",
+            o2: "Coffee & Croissant",
+            o2d: "A Cappuccino with a Butter Croissant — a perfect start to the day.",
+            ob2: "Add combo",
+            ot3: "Students",
+            o3: "Student Offer",
+            o3d: "Learning deserves a treat: 15% off with code STUDENT15.",
+            ob3: "Apply code",
+            ot4: "Weekend",
+            o4: "Weekend Special",
+            o4d: "Beef Tehari + Fresh Juice for a relaxed Friday lunch.",
+            ob4: "Add combo",
+            why_kicker: "Why BREW & BITE",
+            why_h2: "Made to be enjoyed",
+            w1: "Fresh Ingredients",
+            w1d: "Sourced and prepared with care every day.",
+            w2: "Quality Coffee",
+            w2d: "Carefully brewed cups, from espresso to iced.",
+            w3: "Diverse Menu",
+            w3d: "Global favorites and local classics side by side.",
+            w4: "Comfortable Atmosphere",
+            w4d: "Warm lighting and space to work, chat or unwind.",
+            w5: "Convenient Ordering",
+            w5d: "Order for delivery or pickup in a few taps.",
+            rev_kicker: "Reviews",
+            rev_h2: "Kind words (demo)",
+            rev_note:
+              "These testimonials are fictional demo content, not verified customer reviews.",
+            r1: "The cappuccino was smooth and the croissant flaky. A cozy spot to start the day.",
+            r2: "Great variety — biryani for my parents, pasta for me. Everyone left happy.",
+            r3: "Ordering was quick and the salad tasted fresh. Perfect for a healthy lunch.",
+            rn1: "Demo Guest A",
+            rn2: "Demo Guest B",
+            rn3: "Demo Guest C",
+            rrole: "Fictional sample review",
+            stars_aria: "5 out of 5 stars (demo)",
+            faq_kicker: "FAQ",
+            faq_h2: "Good to know",
+            q1: "What type of food do you serve?",
+            a1: "Coffee and beverages, burgers and sandwiches, pizza and pasta, desserts and bakery, Bangladeshi favorites and healthy salads.",
+            q2: "Do you offer home delivery?",
+            a2: "Yes — choose Delivery at checkout. In this demo, delivery costs ৳60 and is free for orders of ৳1,000 or more.",
+            q3: "Can I reserve a table?",
+            a3: "Table reservations are part of our concept. On this demo site, use the contact form to send a request.",
+            q4: "Do you offer vegetarian options?",
+            a4: "Yes — for example the Garden Fresh Salad, Fresh Fruit Bowl and Margherita Pizza. This is a demo menu; always confirm ingredients if you have allergies.",
+            q5: "What payment methods are available?",
+            a5: "Cash on Delivery, bKash, Nagad and Card appear as demo options. No real payment is processed on this site; real payments need a secure backend and official gateway credentials.",
+            q6: "Where are you located?",
+            a6: "BREW & BITE is a fictional cafe imagined in Dhaka, Bangladesh. The address shown is a demo placeholder.",
+            con_kicker: "Visit & Contact",
+            con_h2: "Come say hello",
+            con_sub:
+              "All contact details below are demo placeholders, not real business information.",
+            con_loc: "Location",
+            con_loc_v: "Dhaka, Bangladesh (demo address)",
+            con_phone: "Phone",
+            con_phone_v: "+880 1XXX-XXXXXX (demo placeholder)",
+            con_mail: "Email",
+            con_mail_v: "hello@brewandbite.example (demo placeholder)",
+            con_hours: "Business hours (demo)",
+            con_hours_v: "Sat–Thu 8:00 AM – 11:00 PM · Fri 10:00 AM – 11:30 PM",
+            con_form_h: "Send us a message",
+            f_name: "Full name",
+            f_msg: "Message",
+            con_send: "Send Message",
+            f_email_s: "Email address",
+            con_err: "Please enter your name and a message.",
+            con_ok: "Thanks! This is a demo form — nothing was sent.",
+            social_ph: "Social link placeholder (demo)",
+            foot_links: "Explore",
+            foot_cats: "Menu",
+            foot_news: "Newsletter (demo)",
+            foot_news_p:
+              "Demo newsletter box — no emails are collected or sent.",
+            news_ph: "Your email",
+            subscribe: "Subscribe",
+            news_ok: "Thanks! Demo only — nothing was saved.",
+            news_bad: "Please enter a valid email.",
+            copyright:
+              "© 2026 BREW & BITE. A fictional demo brand created for a course project. Prices, offers, reviews, contact details and hours are illustrative.",
+            cart_title: "Your Cart",
+            cart_empty: "Your cart is empty",
+            cart_empty_sub: "Add something delicious from our menu.",
+            cart_browse: "Browse Menu",
+            coupon_label: "Coupon code",
+            coupon_ph: "Coupon code",
+            apply: "Apply",
+            remove: "Remove",
+            checkout: "Checkout",
+            subtotal: "Subtotal",
+            discount: "Discount",
+            delivery: "Delivery fee",
+            free: "Free",
+            total: "Total",
+            free_hint: "Add {amt} more for free delivery",
+            qty_dec: "Decrease quantity of {name}",
+            qty_inc: "Increase quantity of {name}",
+            remove_item: "Remove {name} from cart",
+            qty: "Qty",
+            c_ok: "Coupon {code} applied",
+            c_bad: "Invalid coupon code",
+            c_dup: "This coupon is already applied",
+            c_other: "Remove the current coupon before applying another",
+            c_empty: "Enter a coupon code",
+            c_removed: "Coupon removed",
+            t_added: "{name} added to cart",
+            t_removed: "{name} removed",
+            t_combo: "Combo added to cart",
+            t_empty: "Your cart is empty",
+            t_theme_d: "Dark theme on",
+            t_theme_l: "Light theme on",
+            t_lang: "Language: English",
+            co_title: "Checkout",
+            demo_banner:
+              "Demo checkout — orders are simulated. Nothing is charged, delivered or sent to a kitchen.",
+            co_name: "Full name",
+            co_phone: "Phone number",
+            co_email: "Email (optional)",
+            co_addr: "Delivery address",
+            co_type: "Order type",
+            co_delivery: "Delivery",
+            co_pickup: "Pickup",
+            co_pay: "Payment method",
+            pay_cod: "Cash on Delivery",
+            pay_bkash: "bKash (Demo)",
+            pay_nagad: "Nagad (Demo)",
+            pay_card: "Card (Demo)",
+            pay_note_cod:
+              "Pay in cash when your order arrives or when you pick it up.",
+            pay_note_demo:
+              "Demo simulation only: no real payment is processed and no payment details are collected. Real bKash, Nagad or card payments require secure backend integration and official gateway credentials.",
+            co_summary: "Order summary",
+            co_place: "Place Order",
+            e_name: "Please enter your full name.",
+            e_phone:
+              "Enter a valid Bangladeshi mobile number, e.g. 01712345678.",
+            e_email: "Enter a valid email address.",
+            e_addr: "Please enter your delivery address.",
+            ok_title: "Order placed (demo)!",
+            ok_p: "Thank you, {name}. This is a simulated order — nothing was charged or sent to a kitchen.",
+            ok_id: "Demo order ID",
+            ok_pay: "Payment",
+            ok_type: "Order type",
+            ok_total: "Total",
+            ok_close: "Back to site",
+          },
+          bn: {
+            meta_title: "BREW & BITE — ঢাকার আধুনিক ক্যাফে ও রেস্তোরাঁ (ডেমো)",
+            skip: "মূল অংশে যান",
+            ann: "তাজা স্বাদ, আরও সুন্দর মুহূর্ত — আমাদের সিগনেচার মেনু দেখুন।",
+            nav_home: "হোম",
+            nav_about: "আমাদের কথা",
+            nav_menu: "মেনু",
+            nav_offers: "অফার",
+            nav_reviews: "রিভিউ",
+            nav_contact: "যোগাযোগ",
+            lang_aria: "ভাষা ইংরেজিতে পরিবর্তন করুন",
+            theme_aria: "ডার্ক ও লাইট থিম পরিবর্তন করুন",
+            cart_aria: "কার্ট খুলুন",
+            menu_aria: "মেনু খুলুন",
+            close: "বন্ধ করুন",
+            hero_kicker: "আধুনিক ক্যাফে ও রেস্তোরাঁ · ঢাকা",
+            h1a: "ভালো খাবার।",
+            h1b: "দারুণ কফি।",
+            h1c: "আরও সুন্দর মুহূর্ত।",
+            hero_p:
+              "BREW & BITE-এ এক ছাদের নিচে মিলবে স্পেশালিটি কফি, আন্তর্জাতিক পছন্দের খাবার, দেশি স্বাদ, তাজা বেকারি আর স্বাস্থ্যকর মিল।",
+            btn_explore: "মেনু দেখুন",
+            btn_order: "এখনই অর্ডার করুন",
+            hl1: "মেনু আইটেম",
+            hl2: "খাবারের ক্যাটাগরি",
+            hl3n: "২ উপায়",
+            hl3: "ডেলিভারি ও পিকআপ",
+            hero_pick: "সিগনেচার পছন্দ",
+            tagline: "চুমুক। স্বাদ। বারবার।",
+            tagline_a: "চুমুক। স্বাদ।",
+            tagline_b: "বারবার।",
+            about_kicker: "আমাদের গল্প",
+            about_h2:
+              "প্রতিটি মেজাজের জন্য একটি টেবিল, প্রতিটি মুহূর্তের জন্য এক কাপ।",
+            about_p1:
+              "BREW & BITE ঢাকার জন্য কল্পনা করা একটি কনসেপ্ট ক্যাফে ও রেস্তোরাঁ — যেখানে সকালের এসপ্রেসো, পরিবারের সাথে বিরিয়ানির দুপুর আর সন্ধ্যার পাস্তা ডেট সবই মানিয়ে যায়।",
+            about_p2:
+              "আমরা বিশ্বাস করি সৎ উপকরণ, প্রচুর বৈচিত্র্য আর এমন একটি পরিবেশে, যেখানে আরেকটু বসে থাকতে ইচ্ছে করে। প্রতিটি প্লেট ও প্রতিটি কাপ সাধারণ এক ঘণ্টাকে স্মরণীয় করে তুলতে চায়।",
+            ap1: "মানসম্মত উপকরণ",
+            ap1d: "তাজা ও যত্নে বাছাই করা উপকরণ।",
+            ap2: "বৈচিত্র্যময় মেনু",
+            ap2d: "কফি, বেকারি, দেশি-বিদেশি খাবার।",
+            ap3: "স্মরণীয় অভিজ্ঞতা",
+            ap3d: "মুহূর্ত উপভোগের উষ্ণ পরিবেশ।",
+            about_note:
+              "BREW & BITE একটি কাল্পনিক ব্র্যান্ড, কোর্স প্রজেক্টের জন্য তৈরি। এই পেজের তথ্য প্রস্তাবিত কনসেপ্ট, যাচাইকৃত তথ্য নয়।",
+            menu_kicker: "আমাদের মেনু",
+            menu_h2: "সবার জন্য সুস্বাদু কিছু",
+            menu_sub:
+              "শুধু উদাহরণের জন্য ডেমো আইটেম ও দাম — বাস্তব রেস্তোরাঁর দাম নয়।",
+            menu_filter_aria: "ক্যাটাগরি অনুযায়ী মেনু ফিল্টার করুন",
+            all: "সব",
+            c_coffee: "কফি ও পানীয়",
+            c_burger: "বার্গার ও স্যান্ডউইচ",
+            c_pizza: "পিজ্জা ও পাস্তা",
+            c_dessert: "ডেজার্ট ও বেকারি",
+            c_bd: "বাংলাদেশি খাবার",
+            c_healthy: "হেলদি ফুড ও সালাদ",
+            bestseller: "বেস্টসেলার",
+            add: "কার্টে যোগ করুন",
+            add_aria: "{name} কার্টে যোগ করুন",
+            hero_add: "যোগ করুন",
+            off_kicker: "বিশেষ অফার",
+            off_h2: "শেয়ার করার মতো ডিল",
+            off_demo:
+              "কোর্স প্রজেক্টের জন্য তৈরি ডেমো অফার — বাস্তব প্রমোশন নয়।",
+            coupon_codes: "ডেমো কুপন কোড:",
+            ot1: "কম্বো",
+            o1: "বার্গার ও ব্রু কম্বো",
+            o1d: "ক্লাসিক বিফ বার্গার + আইসড কফি, এক ট্যাপেই।",
+            ob1: "কম্বো যোগ করুন",
+            ot2: "কফি ডিল",
+            o2: "কফি ও ক্রোয়াসাঁ",
+            o2d: "একটি ক্যাপুচিনোর সাথে বাটার ক্রোয়াসাঁ — দিনের দারুণ শুরু।",
+            ob2: "কম্বো যোগ করুন",
+            ot3: "শিক্ষার্থী",
+            o3: "স্টুডেন্ট অফার",
+            o3d: "পড়াশোনার পরে একটু ট্রিট: STUDENT15 কোডে ১৫% ছাড়।",
+            ob3: "কোড ব্যবহার করুন",
+            ot4: "উইকেন্ড",
+            o4: "উইকেন্ড স্পেশাল",
+            o4d: "আরামদায়ক শুক্রবারের দুপুরের জন্য বিফ তেহারি + ফ্রেশ জুস।",
+            ob4: "কম্বো যোগ করুন",
+            why_kicker: "কেন BREW & BITE",
+            why_h2: "উপভোগ করার জন্য তৈরি",
+            w1: "তাজা উপকরণ",
+            w1d: "প্রতিদিন যত্ন করে সংগ্রহ ও প্রস্তুত।",
+            w2: "মানসম্মত কফি",
+            w2d: "এসপ্রেসো থেকে আইসড — যত্নে তৈরি প্রতিটি কাপ।",
+            w3: "বৈচিত্র্যময় মেনু",
+            w3d: "বিশ্বের পছন্দের খাবার আর দেশি ক্লাসিক পাশাপাশি।",
+            w4: "আরামদায়ক পরিবেশ",
+            w4d: "নরম আলো আর কাজ, আড্ডা বা বিশ্রামের জায়গা।",
+            w5: "সহজ অর্ডার",
+            w5d: "কয়েক ট্যাপেই ডেলিভারি বা পিকআপের অর্ডার।",
+            rev_kicker: "রিভিউ",
+            rev_h2: "ভালো কথা (ডেমো)",
+            rev_note:
+              "এই মন্তব্যগুলো কাল্পনিক ডেমো কনটেন্ট, যাচাইকৃত গ্রাহক রিভিউ নয়।",
+            r1: "ক্যাপুচিনো ছিল মসৃণ আর ক্রোয়াসাঁ ছিল মচমচে। দিন শুরুর জন্য আরামদায়ক জায়গা।",
+            r2: "দারুণ বৈচিত্র্য — বাবা-মায়ের জন্য বিরিয়ানি, আমার জন্য পাস্তা। সবাই খুশি।",
+            r3: "অর্ডার করা ছিল দ্রুত, সালাদটা ছিল তাজা। হেলদি লাঞ্চের জন্য পারফেক্ট।",
+            rn1: "ডেমো অতিথি ক",
+            rn2: "ডেমো অতিথি খ",
+            rn3: "ডেমো অতিথি গ",
+            rrole: "কাল্পনিক নমুনা রিভিউ",
+            stars_aria: "৫-এর মধ্যে ৫ তারা (ডেমো)",
+            faq_kicker: "প্রশ্নোত্তর",
+            faq_h2: "জেনে রাখা ভালো",
+            q1: "আপনারা কী ধরনের খাবার পরিবেশন করেন?",
+            a1: "কফি ও পানীয়, বার্গার ও স্যান্ডউইচ, পিজ্জা ও পাস্তা, ডেজার্ট ও বেকারি, বাংলাদেশি খাবার এবং হেলদি সালাদ।",
+            q2: "আপনারা কি হোম ডেলিভারি দেন?",
+            a2: "হ্যাঁ — চেকআউটে ডেলিভারি বেছে নিন। এই ডেমোতে ডেলিভারি চার্জ ৳৬০, আর ৳১,০০০ বা তার বেশি অর্ডারে ফ্রি।",
+            q3: "আমি কি টেবিল রিজার্ভ করতে পারি?",
+            a3: "টেবিল রিজার্ভেশন আমাদের কনসেপ্টের অংশ। এই ডেমো সাইটে যোগাযোগ ফর্ম ব্যবহার করে অনুরোধ জানান।",
+            q4: "নিরামিষ খাবার আছে কি?",
+            a4: "হ্যাঁ — যেমন গার্ডেন ফ্রেশ সালাদ, ফ্রেশ ফ্রুট বোল ও মার্গারিটা পিজ্জা। এটি ডেমো মেনু; অ্যালার্জি থাকলে উপকরণ অবশ্যই জেনে নিন।",
+            q5: "কোন কোন পেমেন্ট পদ্ধতি আছে?",
+            a5: "ক্যাশ অন ডেলিভারি, বিকাশ, নগদ ও কার্ড ডেমো অপশন হিসেবে দেখানো হয়েছে। এই সাইটে কোনো প্রকৃত পেমেন্ট হয় না; প্রকৃত পেমেন্টের জন্য নিরাপদ ব্যাকএন্ড ও অফিসিয়াল গেটওয়ে ক্রেডেনশিয়াল দরকার।",
+            q6: "আপনারা কোথায় অবস্থিত?",
+            a6: "BREW & BITE বাংলাদেশের ঢাকায় কল্পনা করা একটি কাল্পনিক ক্যাফে। এখানকার ঠিকানা ডেমো প্লেসহোল্ডার।",
+            con_kicker: "ঘুরে যান ও যোগাযোগ",
+            con_h2: "এসে হ্যালো বলুন",
+            con_sub:
+              "নিচের সব যোগাযোগের তথ্য ডেমো প্লেসহোল্ডার, বাস্তব ব্যবসার তথ্য নয়।",
+            con_loc: "অবস্থান",
+            con_loc_v: "ঢাকা, বাংলাদেশ (ডেমো ঠিকানা)",
+            con_phone: "ফোন",
+            con_phone_v: "+৮৮০ ১XXX-XXXXXX (ডেমো প্লেসহোল্ডার)",
+            con_mail: "ইমেইল",
+            con_mail_v: "hello@brewandbite.example (ডেমো প্লেসহোল্ডার)",
+            con_hours: "খোলার সময় (ডেমো)",
+            con_hours_v:
+              "শনি–বৃহস্পতি সকাল ৮:০০ – রাত ১১:০০ · শুক্র সকাল ১০:০০ – রাত ১১:৩০",
+            con_form_h: "আমাদের মেসেজ পাঠান",
+            f_name: "পূর্ণ নাম",
+            f_msg: "মেসেজ",
+            con_send: "মেসেজ পাঠান",
+            f_email_s: "ইমেইল ঠিকানা",
+            con_err: "অনুগ্রহ করে নাম ও মেসেজ লিখুন।",
+            con_ok: "ধন্যবাদ! এটি ডেমো ফর্ম — কিছুই পাঠানো হয়নি।",
+            social_ph: "সোশ্যাল লিংক প্লেসহোল্ডার (ডেমো)",
+            foot_links: "এক্সপ্লোর",
+            foot_cats: "মেনু",
+            foot_news: "নিউজলেটার (ডেমো)",
+            foot_news_p:
+              "ডেমো নিউজলেটার বক্স — কোনো ইমেইল সংগ্রহ বা পাঠানো হয় না।",
+            news_ph: "আপনার ইমেইল",
+            subscribe: "সাবস্ক্রাইব",
+            news_ok: "ধন্যবাদ! শুধু ডেমো — কিছুই সংরক্ষণ হয়নি।",
+            news_bad: "অনুগ্রহ করে সঠিক ইমেইল দিন।",
+            copyright:
+              "© ২০২৬ BREW & BITE। কোর্স প্রজেক্টের জন্য তৈরি একটি কাল্পনিক ডেমো ব্র্যান্ড। দাম, অফার, রিভিউ, যোগাযোগের তথ্য ও সময় উদাহরণমাত্র।",
+            cart_title: "আপনার কার্ট",
+            cart_empty: "আপনার কার্ট খালি",
+            cart_empty_sub: "আমাদের মেনু থেকে সুস্বাদু কিছু যোগ করুন।",
+            cart_browse: "মেনু দেখুন",
+            coupon_label: "কুপন কোড",
+            coupon_ph: "কুপন কোড",
+            apply: "প্রয়োগ করুন",
+            remove: "সরান",
+            checkout: "চেকআউট",
+            subtotal: "সাবটোটাল",
+            discount: "ডিসকাউন্ট",
+            delivery: "ডেলিভারি চার্জ",
+            free: "ফ্রি",
+            total: "সর্বমোট",
+            free_hint: "ফ্রি ডেলিভারির জন্য আরও {amt} যোগ করুন",
+            qty_dec: "{name}-এর পরিমাণ কমান",
+            qty_inc: "{name}-এর পরিমাণ বাড়ান",
+            remove_item: "{name} কার্ট থেকে সরান",
+            qty: "পরিমাণ",
+            c_ok: "{code} কুপন প্রয়োগ হয়েছে",
+            c_bad: "কুপন কোডটি সঠিক নয়",
+            c_dup: "এই কুপন ইতিমধ্যে প্রয়োগ করা হয়েছে",
+            c_other: "অন্য কুপন দেওয়ার আগে বর্তমান কুপনটি সরান",
+            c_empty: "একটি কুপন কোড লিখুন",
+            c_removed: "কুপন সরানো হয়েছে",
+            t_added: "{name} কার্টে যোগ হয়েছে",
+            t_removed: "{name} সরানো হয়েছে",
+            t_combo: "কম্বো কার্টে যোগ হয়েছে",
+            t_empty: "আপনার কার্ট খালি",
+            t_theme_d: "ডার্ক থিম চালু",
+            t_theme_l: "লাইট থিম চালু",
+            t_lang: "ভাষা: বাংলা",
+            co_title: "চেকআউট",
+            demo_banner:
+              "ডেমো চেকআউট — অর্ডার শুধু সিমুলেশন। কিছুই চার্জ, ডেলিভারি বা রান্নাঘরে পাঠানো হবে না।",
+            co_name: "পূর্ণ নাম",
+            co_phone: "ফোন নম্বর",
+            co_email: "ইমেইল (ঐচ্ছিক)",
+            co_addr: "ডেলিভারি ঠিকানা",
+            co_type: "অর্ডারের ধরন",
+            co_delivery: "ডেলিভারি",
+            co_pickup: "পিকআপ",
+            co_pay: "পেমেন্ট পদ্ধতি",
+            pay_cod: "ক্যাশ অন ডেলিভারি",
+            pay_bkash: "বিকাশ (ডেমো)",
+            pay_nagad: "নগদ (ডেমো)",
+            pay_card: "কার্ড (ডেমো)",
+            pay_note_cod: "অর্ডার পৌঁছালে বা পিকআপের সময় নগদে পরিশোধ করুন।",
+            pay_note_demo:
+              "শুধু ডেমো সিমুলেশন: কোনো প্রকৃত পেমেন্ট হয় না এবং কোনো পেমেন্ট তথ্য সংগ্রহ করা হয় না। প্রকৃত বিকাশ, নগদ বা কার্ড পেমেন্টের জন্য নিরাপদ ব্যাকএন্ড ইন্টিগ্রেশন ও অফিসিয়াল গেটওয়ে ক্রেডেনশিয়াল দরকার।",
+            co_summary: "অর্ডার সারাংশ",
+            co_place: "অর্ডার দিন",
+            e_name: "অনুগ্রহ করে আপনার পূর্ণ নাম লিখুন।",
+            e_phone: "সঠিক বাংলাদেশি মোবাইল নম্বর দিন, যেমন 01712345678।",
+            e_email: "সঠিক ইমেইল ঠিকানা দিন।",
+            e_addr: "অনুগ্রহ করে ডেলিভারি ঠিকানা লিখুন।",
+            ok_title: "অর্ডার সম্পন্ন (ডেমো)!",
+            ok_p: "ধন্যবাদ, {name}। এটি একটি সিমুলেটেড অর্ডার — কিছুই চার্জ বা রান্নাঘরে পাঠানো হয়নি।",
+            ok_id: "ডেমো অর্ডার আইডি",
+            ok_pay: "পেমেন্ট",
+            ok_type: "অর্ডারের ধরন",
+            ok_total: "সর্বমোট",
+            ok_close: "সাইটে ফিরে যান",
+          },
+        };
+
+        /* --------------------------- 4. MENU DATA -------------------------- */
+        const CATS = [
+          ["all", "all", ""],
+          ["coffee", "c_coffee", "☕"],
+          ["burger", "c_burger", "🍔"],
+          ["pizza", "c_pizza", "🍕"],
+          ["dessert", "c_dessert", "🍰"],
+          ["bd", "c_bd", "🍛"],
+          ["healthy", "c_healthy", "🥗"],
+        ];
+        const P = (id, cat, price, img, best, en, bn) => ({
+          id,
+          cat,
+          price,
+          img,
+          best,
+          en,
+          bn,
+        });
+        const PRODUCTS = [
+          P(
+            "c1",
+            "coffee",
+            150,
+            "photo-1510707577719-ae7c14805e3a",
+            0,
+            ["Espresso", "Rich, bold single shot."],
+            ["এসপ্রেসো", "ঘন ও কড়া সিঙ্গেল শট।"],
+          ),
+          P(
+            "c2",
+            "coffee",
+            200,
+            "photo-1572442388796-11668a67e53d",
+            1,
+            ["Cappuccino", "Espresso with velvety steamed milk foam."],
+            ["ক্যাপুচিনো", "এসপ্রেসো ও মখমলে দুধের ফেনা।"],
+          ),
+          P(
+            "c3",
+            "coffee",
+            220,
+            "photo-1461023058943-07fcbe16d735",
+            0,
+            ["Cafe Latte", "Smooth espresso with creamy milk."],
+            ["ক্যাফে ল্যাটে", "মসৃণ এসপ্রেসো ও ক্রিমি দুধ।"],
+          ),
+          P(
+            "c4",
+            "coffee",
+            280,
+            "photo-1509042239860-f550ce710b93",
+            1,
+            ["Spanish Latte", "Sweet condensed-milk latte, our signature."],
+            [
+              "স্প্যানিশ ল্যাটে",
+              "কনডেন্সড মিল্কের মিষ্টি ল্যাটে, আমাদের সিগনেচার।",
+            ],
+          ),
+          P(
+            "c5",
+            "coffee",
+            250,
+            "photo-1517701604599-bb29b565090c",
+            0,
+            ["Iced Coffee", "Chilled coffee over ice, refreshing."],
+            ["আইসড কফি", "বরফ দেওয়া ঠান্ডা সতেজ কফি।"],
+          ),
+          P(
+            "c6",
+            "coffee",
+            180,
+            "photo-1600271886742-f049cd451bba",
+            0,
+            ["Fresh Juice", "Seasonal fruit, pressed fresh."],
+            ["ফ্রেশ জুস", "মৌসুমি ফলের তাজা জুস।"],
+          ),
+          P(
+            "b1",
+            "burger",
+            320,
+            "photo-1568901346375-23c9450c58cd",
+            1,
+            [
+              "Classic Beef Burger",
+              "Juicy beef patty, cheese, lettuce and house sauce.",
+            ],
+            ["ক্লাসিক বিফ বার্গার", "রসালো বিফ প্যাটি, চিজ, লেটুস ও হাউস সস।"],
+          ),
+          P(
+            "b2",
+            "burger",
+            280,
+            "photo-1550547660-d9450f859349",
+            0,
+            [
+              "Crispy Chicken Burger",
+              "Golden fried chicken with crunchy slaw.",
+            ],
+            [
+              "ক্রিসপি চিকেন বার্গার",
+              "সোনালি ভাজা চিকেন ও মচমচে বাঁধাকপির সালাদ।",
+            ],
+          ),
+          P(
+            "b3",
+            "burger",
+            350,
+            "photo-1571091718767-18b5b1457add",
+            0,
+            ["BBQ Chicken Burger", "Smoky BBQ glaze, onion rings and cheddar."],
+            [
+              "বিবিকিউ চিকেন বার্গার",
+              "স্মোকি বিবিকিউ গ্লেজ, অনিয়ন রিং ও চেডার।",
+            ],
+          ),
+          P(
+            "b4",
+            "burger",
+            260,
+            "photo-1528735602780-2552fd46c7af",
+            0,
+            [
+              "Club Sandwich",
+              "Triple-layer toasted sandwich with chicken and egg.",
+            ],
+            [
+              "ক্লাব স্যান্ডউইচ",
+              "চিকেন ও ডিমসহ তিন স্তরের টোস্টেড স্যান্ডউইচ।",
+            ],
+          ),
+          P(
+            "b5",
+            "burger",
+            290,
+            "photo-1521305916504-4a1121188589",
+            0,
+            [
+              "Grilled Chicken Sandwich",
+              "Grilled chicken, greens and herb mayo.",
+            ],
+            [
+              "গ্রিলড চিকেন স্যান্ডউইচ",
+              "গ্রিলড চিকেন, সবুজ শাক ও হার্ব মেয়োনেজ।",
+            ],
+          ),
+          P(
+            "p1",
+            "pizza",
+            450,
+            "photo-1574071318508-1cdbab80d002",
+            0,
+            ["Margherita Pizza", "Tomato, mozzarella and fresh basil."],
+            ["মার্গারিটা পিজ্জা", "টমেটো, মোজারেলা ও তাজা বেসিল।"],
+          ),
+          P(
+            "p2",
+            "pizza",
+            550,
+            "photo-1565299624946-b28f40a0ae38",
+            1,
+            ["Chicken BBQ Pizza", "Smoky BBQ chicken, onions and mozzarella."],
+            [
+              "চিকেন বিবিকিউ পিজ্জা",
+              "স্মোকি বিবিকিউ চিকেন, পেঁয়াজ ও মোজারেলা।",
+            ],
+          ),
+          P(
+            "p3",
+            "pizza",
+            650,
+            "photo-1513104890138-7c749659a591",
+            0,
+            ["Beef Pepperoni Pizza", "Beef pepperoni on a crisp, cheesy base."],
+            ["বিফ পেপারনি পিজ্জা", "মচমচে চিজি বেসে বিফ পেপারনি।"],
+          ),
+          P(
+            "p4",
+            "pizza",
+            380,
+            "photo-1621996346565-e3dbc646d9a9",
+            0,
+            [
+              "Creamy Alfredo Pasta",
+              "Fettuccine in a rich parmesan cream sauce.",
+            ],
+            ["ক্রিমি আলফ্রেডো পাস্তা", "সমৃদ্ধ পারমেজান ক্রিম সসে ফেটুচিনি।"],
+          ),
+          P(
+            "p5",
+            "pizza",
+            350,
+            "photo-1473093295043-cdd812d0e601",
+            0,
+            [
+              "Spicy Chicken Pasta",
+              "Penne tossed with spicy chicken and tomato sauce.",
+            ],
+            ["স্পাইসি চিকেন পাস্তা", "ঝাল চিকেন ও টমেটো সসে পেন্নে।"],
+          ),
+          P(
+            "d1",
+            "dessert",
+            220,
+            "photo-1624353365286-3f8d62daad51",
+            1,
+            [
+              "Chocolate Lava Cake",
+              "Warm cake with a molten chocolate center.",
+            ],
+            ["চকলেট লাভা কেক", "গলিত চকলেটের কেন্দ্রসহ গরম কেক।"],
+          ),
+          P(
+            "d2",
+            "dessert",
+            280,
+            "photo-1533134242443-d4fd215305ad",
+            0,
+            [
+              "New York Cheesecake",
+              "Creamy baked cheesecake on a biscuit base.",
+            ],
+            ["নিউ ইয়র্ক চিজকেক", "বিস্কুট বেসে ক্রিমি বেকড চিজকেক।"],
+          ),
+          P(
+            "d3",
+            "dessert",
+            160,
+            "photo-1606313564200-e75d5e30476c",
+            0,
+            ["Chocolate Brownie", "Fudgy brownie with a crackly top."],
+            ["চকলেট ব্রাউনি", "নরম ফাজি ব্রাউনি, উপরে মচমচে স্তর।"],
+          ),
+          P(
+            "d4",
+            "dessert",
+            150,
+            "photo-1555507036-ab1f4038808a",
+            0,
+            ["Butter Croissant", "Flaky, buttery layers baked fresh."],
+            ["বাটার ক্রোয়াসাঁ", "তাজা বেক করা মচমচে বাটারি স্তর।"],
+          ),
+          P(
+            "d5",
+            "dessert",
+            140,
+            "photo-1607958996333-41aef7caefaa",
+            0,
+            ["Chocolate Muffin", "Soft muffin loaded with chocolate chips."],
+            ["চকলেট মাফিন", "চকলেট চিপসে ভরা নরম মাফিন।"],
+          ),
+          P(
+            "l1",
+            "bd",
+            280,
+            "photo-1563379091339-03b21ab4f4f8",
+            1,
+            [
+              "Chicken Biryani",
+              "Fragrant basmati rice layered with spiced chicken.",
+            ],
+            ["চিকেন বিরিয়ানি", "সুগন্ধি বাসমতি চাল ও মসলাদার চিকেন।"],
+          ),
+          P(
+            "l2",
+            "bd",
+            300,
+            "photo-1633945274405-b6c8069047b0",
+            0,
+            ["Beef Tehari", "Mustard-oil rice cooked with tender beef."],
+            ["বিফ তেহারি", "সরিষার তেলে রান্না কোমল গরুর মাংসের তেহারি।"],
+          ),
+          P(
+            "l3",
+            "bd",
+            220,
+            "photo-1589302168068-964664d93dc0",
+            0,
+            ["Chicken Khichuri", "Comforting rice and lentils with chicken."],
+            ["চিকেন খিচুড়ি", "ডাল-চালের আরামদায়ক খিচুড়ি, সাথে চিকেন।"],
+          ),
+          P(
+            "l4",
+            "bd",
+            350,
+            "photo-1596797038530-2c107229654b",
+            0,
+            [
+              "Bengali Rice Platter",
+              "Steamed rice with dal, bhorta, curry and vegetables.",
+            ],
+            ["বাঙালি রাইস প্ল্যাটার", "ভাতের সাথে ডাল, ভর্তা, তরকারি ও সবজি।"],
+          ),
+          P(
+            "h1",
+            "healthy",
+            320,
+            "photo-1512621776951-a57141f2eefd",
+            0,
+            [
+              "Grilled Chicken Salad",
+              "Grilled chicken over crisp greens and vinaigrette.",
+            ],
+            ["গ্রিলড চিকেন সালাদ", "মচমচে সবুজ শাকে গ্রিলড চিকেন ও ভিনেগ্রেট।"],
+          ),
+          P(
+            "h2",
+            "healthy",
+            220,
+            "photo-1540420773420-3366772f4999",
+            0,
+            ["Garden Fresh Salad", "Seasonal vegetables with lemon dressing."],
+            ["গার্ডেন ফ্রেশ সালাদ", "মৌসুমি সবজি ও লেবুর ড্রেসিং।"],
+          ),
+          P(
+            "h3",
+            "healthy",
+            350,
+            "photo-1550304943-4f24f54ddde9",
+            1,
+            [
+              "Chicken Caesar Salad",
+              "Romaine, chicken, parmesan and croutons.",
+            ],
+            ["চিকেন সিজার সালাদ", "রোমেইন, চিকেন, পারমেজান ও ক্রাউটন।"],
+          ),
+          P(
+            "h4",
+            "healthy",
+            250,
+            "photo-1490474418585-ba9bad8fd0ea",
+            0,
+            ["Fresh Fruit Bowl", "A colourful bowl of seasonal fruit."],
+            ["ফ্রেশ ফ্রুট বোল", "মৌসুমি ফলের রঙিন বোল।"],
+          ),
+          P(
+            "h5",
+            "healthy",
+            280,
+            "photo-1554433607-66b5efe9d304",
+            0,
+            [
+              "Healthy Sandwich",
+              "Whole-grain bread with lean protein and veggies.",
+            ],
+            ["হেলদি স্যান্ডউইচ", "হোল-গ্রেইন ব্রেডে লিন প্রোটিন ও সবজি।"],
+          ),
+        ];
+        const BY_ID = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
+        const OFFERS = [
+          { n: 1, icon: "gift", ids: ["b1", "c5"] },
+          { n: 2, icon: "coffee", ids: ["c2", "d4"] },
+          { n: 3, icon: "tag", coupon: "STUDENT15" },
+          { n: 4, icon: "utensils", ids: ["l2", "c6"] },
+        ];
+
+        /* ------------------------ 5. STATE & TOTALS ------------------------ */
+        const state = {
+          lang: store.get("bb_lang", "en") === "bn" ? "bn" : "en",
+          theme: document.documentElement.classList.contains("dark")
+            ? "dark"
+            : "light",
+          cart: store.get("bb_cart", {}),
+          coupon: store.get("bb_coupon", null),
+          orderType: "delivery",
+          pay: "cod",
+          cat: "all",
+          faqOpen: -1,
+          lastOrder: null,
+        };
+        // sanitize persisted data
+        state.cart = Object.fromEntries(
+          Object.entries(state.cart || {}).filter(
+            ([id, q]) => BY_ID[id] && Number.isInteger(q) && q > 0,
+          ),
+        );
+        if (!COUPONS[state.coupon]) state.coupon = null;
+
+        const t = (k, v = {}) => {
+          let s = (I18N[state.lang] && I18N[state.lang][k]) ?? I18N.en[k] ?? k;
+          for (const key in v) s = s.replaceAll("{" + key + "}", v[key]);
+          return s;
+        };
+        const num = (n) => {
+          const s = Number(n).toLocaleString("en-US");
+          return state.lang === "bn"
+            ? s.replace(/\d/g, (d) => BN_DIGITS[d])
+            : s;
+        };
+        const money = (n) => "৳" + num(n);
+        const pname = (p) => p[state.lang][0];
+        const saveCart = () => {
+          store.set("bb_cart", state.cart);
+          store.set("bb_coupon", state.coupon);
+        };
+
+        function totals() {
+          const items = Object.entries(state.cart).map(([id, qty]) => ({
+            p: BY_ID[id],
+            qty,
+          }));
+          const count = items.reduce((a, i) => a + i.qty, 0);
+          const sub = items.reduce((a, i) => a + i.p.price * i.qty, 0);
+          let discount = 0;
+          const c = COUPONS[state.coupon];
+          if (c && sub > 0)
+            discount = c.type === "pct" ? Math.round((sub * c.v) / 100) : c.v;
+          discount = Math.min(discount, sub);
+          const fee =
+            count === 0 ||
+            state.orderType === "pickup" ||
+            sub >= FREE_DELIVERY_MIN
+              ? 0
+              : DELIVERY_FEE;
+          const total = Math.max(0, sub - discount + fee);
+          return { items, count, sub, discount, fee, total };
+        }
+
+        /* --------------------------- 6. RENDERERS -------------------------- */
+        const imgUrl = (id, w, h) =>
+          `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&h=${h}&q=70`;
+
+        function renderTabs() {
+          $("#menuTabs").innerHTML = CATS.map(([id, key]) => {
+            const on = state.cat === id;
+            return `<button type="button" data-action="filter" data-cat="${id}" aria-pressed="${on}" class="h-11 rounded-full border px-5 text-sm font-semibold transition ${on ? "border-brand bg-brand text-onbrand" : "border-ink/20 bg-surface hover:border-brand"}">${t(key)}</button>`;
+          }).join("");
+        }
+        function renderMenu() {
+          const list = PRODUCTS.filter(
+            (p) => state.cat === "all" || p.cat === state.cat,
+          );
+          const emoji = Object.fromEntries(CATS.map((c) => [c[0], c[2]]));
+          $("#menuGrid").innerHTML = list
+            .map(
+              (p, i) => `
+      <article class="card-in group flex flex-col overflow-hidden rounded-3xl border border-ink/10 bg-surface shadow-sm transition hover:-translate-y-1 hover:shadow-xl" style="animation-delay:${Math.min(i, 8) * 40}ms">
+        <div class="imgwrap aspect-[4/3]" data-emoji="${emoji[p.cat]}">
+          <img loading="lazy" decoding="async" src="${imgUrl(p.img, 640, 480)}" width="640" height="480" alt="${pname(p)}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" onerror="imgFail(this)">
+          ${p.best ? `<span class="absolute left-3 top-3 flex items-center gap-1 rounded-full bg-gold px-3 py-1 text-xs font-bold text-[#102A25]">${ic("star", "h-3 w-3", true)}${t("bestseller")}</span>` : ""}
+        </div>
+        <div class="flex flex-1 flex-col p-5">
+          <p class="text-[11px] font-semibold uppercase tracking-widest text-accentt">${t(CATS.find((c) => c[0] === p.cat)[1])}</p>
+          <h3 class="mt-1 font-display text-xl font-semibold leading-snug">${pname(p)}</h3>
+          <p class="mt-2 flex-1 text-sm leading-relaxed text-muted">${p[state.lang][1]}</p>
+          <div class="mt-4 flex items-center justify-between gap-3">
+            <p class="text-lg font-bold">${money(p.price)}</p>
+            <button type="button" data-action="add" data-id="${p.id}" aria-label="${t("add_aria", { name: pname(p) })}" class="inline-flex h-11 items-center gap-1.5 rounded-full bg-brand px-4 text-sm font-semibold text-onbrand transition hover:-translate-y-0.5 active:scale-95">${ic("plus", "h-4 w-4")}<span>${t("add")}</span></button>
+          </div>
+        </div>
+      </article>`,
+            )
+            .join("");
+        }
+        function renderAbout() {
+          const pts = [
+            ["leaf", "ap1"],
+            ["utensils", "ap2"],
+            ["smile", "ap3"],
+          ];
+          $("#aboutPoints").innerHTML = pts
+            .map(
+              ([i, k]) =>
+                `<li class="rounded-2xl border border-ink/10 bg-bg p-4"><span class="grid h-10 w-10 place-items-center rounded-full bg-brand/10 text-accentt">${ic(i)}</span><p class="mt-3 font-semibold">${t(k)}</p><p class="mt-1 text-sm text-muted">${t(k + "d")}</p></li>`,
+            )
+            .join("");
+        }
+        function renderOffers() {
+          $("#offerGrid").innerHTML = OFFERS.map(
+            (o) => `
+      <article class="flex flex-col rounded-3xl border border-ink/10 bg-bg p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+        <span class="grid h-12 w-12 place-items-center rounded-2xl bg-forest text-gold">${ic(o.icon, "h-6 w-6")}</span>
+        <p class="mt-5 text-[11px] font-semibold uppercase tracking-widest text-accentt">${t("ot" + o.n)}</p>
+        <h3 class="mt-1 font-display text-xl font-semibold">${t("o" + o.n)}</h3>
+        <p class="mt-2 flex-1 text-sm leading-relaxed text-muted">${t("o" + o.n + "d")}</p>
+        ${o.ids ? `<p class="mt-3 text-sm font-semibold">${money(o.ids.reduce((a, id) => a + BY_ID[id].price, 0))}</p>` : `<p class="mt-3 text-sm font-semibold">${o.coupon}</p>`}
+        <button type="button" data-action="offer" data-n="${o.n}" class="mt-4 h-11 rounded-full border-2 border-brand text-sm font-semibold transition hover:bg-brand hover:text-onbrand">${t("ob" + o.n)}</button>
+      </article>`,
+          ).join("");
+        }
+        function renderWhy() {
+          const rows = [
+            ["leaf", 1],
+            ["coffee", 2],
+            ["utensils", 3],
+            ["smile", 4],
+            ["phone", 5],
+          ];
+          $("#whyGrid").innerHTML = rows
+            .map(
+              ([i, n]) =>
+                `<li class="reveal in rounded-3xl border border-ink/10 bg-surface p-6 text-center"><span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand text-onbrand">${ic(i, "h-6 w-6")}</span><h3 class="mt-4 font-display text-lg font-semibold">${t("w" + n)}</h3><p class="mt-2 text-sm text-muted">${t("w" + n + "d")}</p></li>`,
+            )
+            .join("");
+        }
+        function renderReviews() {
+          $("#reviewGrid").innerHTML = [1, 2, 3]
+            .map(
+              (n) => `
+      <figure class="flex flex-col rounded-3xl border border-ink/10 bg-bg p-7 shadow-sm">
+        <div class="flex gap-0.5 text-gold" role="img" aria-label="${t("stars_aria")}">${ic("star", "h-5 w-5", true).repeat(5)}</div>
+        <blockquote class="mt-4 flex-1 font-display text-lg leading-relaxed">“${t("r" + n)}”</blockquote>
+        <figcaption class="mt-6 flex items-center gap-3 border-t border-ink/10 pt-4">
+          <span class="grid h-11 w-11 place-items-center rounded-full bg-forest font-display text-lg text-gold" aria-hidden="true">${"ABC"[n - 1]}</span>
+          <span><span class="block font-semibold">${t("rn" + n)}</span><span class="block text-xs text-muted">${t("rrole")}</span></span>
+        </figcaption>
+      </figure>`,
+            )
+            .join("");
+        }
+        function renderFaq() {
+          $("#faqList").innerHTML = [1, 2, 3, 4, 5, 6]
+            .map((n, i) => {
+              const open = state.faqOpen === i;
+              return `<div class="rounded-2xl border border-ink/10 bg-surface">
+        <h3><button type="button" id="fq${i}" data-action="faq" data-i="${i}" aria-expanded="${open}" aria-controls="fp${i}" class="flex min-h-14 w-full items-center justify-between gap-4 px-5 py-4 text-left font-semibold"><span>${t("q" + n)}</span>${ic("chevron", "faq-chevron h-5 w-5 shrink-0")}</button></h3>
+        <div id="fp${i}" role="region" aria-labelledby="fq${i}" class="faq-panel ${open ? "open" : ""}"><div><p class="px-5 pb-5 leading-relaxed text-muted">${t("a" + n)}</p></div></div>
+      </div>`;
+            })
+            .join("");
+        }
+        function renderContact() {
+          const rows = [
+            ["pin", "con_loc", "con_loc_v"],
+            ["call", "con_phone", "con_phone_v"],
+            ["mail", "con_mail", "con_mail_v"],
+            ["clock", "con_hours", "con_hours_v"],
+          ];
+          $("#contactList").innerHTML = rows
+            .map(
+              ([i, a, b]) =>
+                `<li class="flex gap-4"><span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-cream/10 text-gold">${ic(i)}</span><div><p class="text-sm font-semibold text-gold">${t(a)}</p><p class="text-cream/90">${t(b)}</p></div></li>`,
+            )
+            .join("");
+          const social = ["instagram", "facebook", "youtube"]
+            .map(
+              (s) =>
+                `<button type="button" data-action="social" aria-label="${s[0].toUpperCase() + s.slice(1)} — ${t("social_ph")}" class="grid h-11 w-11 place-items-center rounded-full border border-cream/25 transition hover:bg-gold hover:text-[#102A25]">${ic(s)}</button>`,
+            )
+            .join("");
+          $("#contactSocial").innerHTML = social;
+          $("#footSocial").innerHTML = social;
+        }
+        function renderFooter() {
+          const links = [
+            ["home", "nav_home"],
+            ["about", "nav_about"],
+            ["menu", "nav_menu"],
+            ["offers", "nav_offers"],
+            ["reviews", "nav_reviews"],
+            ["contact", "nav_contact"],
+          ];
+          $("#footLinks").innerHTML = links
+            .map(
+              ([id, k]) =>
+                `<li><a class="inline-block py-1 hover:text-gold" href="#${id}">${t(k)}</a></li>`,
+            )
+            .join("");
+          $("#footCats").innerHTML = CATS.slice(1)
+            .map(
+              ([id, k]) =>
+                `<li><button type="button" data-action="filter-go" data-cat="${id}" class="py-1 text-left hover:text-gold">${t(k)}</button></li>`,
+            )
+            .join("");
+        }
+        function renderPayOptions() {
+          const types = [
+            ["delivery", "co_delivery", "truck"],
+            ["pickup", "co_pickup", "bag"],
+          ];
+          $("#typeOpts").innerHTML = types
+            .map(
+              ([v, k, i]) =>
+                `<label class="block cursor-pointer"><input type="radio" name="otype" value="${v}" class="peer sr-only" ${state.orderType === v ? "checked" : ""}><span class="flex h-12 items-center justify-center gap-2 rounded-xl border border-ink/20 bg-surface text-sm font-semibold transition peer-checked:border-brand peer-checked:bg-brand peer-checked:text-onbrand peer-focus-visible:outline peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[#C76D4B]">${ic(i, "h-4 w-4")}${t(k)}</span></label>`,
+            )
+            .join("");
+          const pays = [
+            ["cod", "pay_cod"],
+            ["bkash", "pay_bkash"],
+            ["nagad", "pay_nagad"],
+            ["card", "pay_card"],
+          ];
+          $("#payOpts").innerHTML = pays
+            .map(
+              ([v, k]) =>
+                `<label class="block cursor-pointer"><input type="radio" name="pay" value="${v}" class="peer sr-only" ${state.pay === v ? "checked" : ""}><span class="flex h-12 items-center justify-center rounded-xl border border-ink/20 bg-surface px-3 text-center text-sm font-semibold transition peer-checked:border-brand peer-checked:bg-brand peer-checked:text-onbrand peer-focus-visible:outline peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[#C76D4B]">${t(k)}</span></label>`,
+            )
+            .join("");
+          $("#payNote").textContent =
+            state.pay === "cod" ? t("pay_note_cod") : t("pay_note_demo");
+          $("#addrWrap").classList.toggle(
+            "hidden",
+            state.orderType === "pickup",
+          );
+        }
+
+        function totalsHTML(c) {
+          const rows = [
+            `<div class="flex justify-between"><dt class="text-muted">${t("subtotal")}</dt><dd>${money(c.sub)}</dd></div>`,
+          ];
+          if (c.discount)
+            rows.push(
+              `<div class="flex justify-between text-[#1F7A4D] dark:text-emerald-300"><dt>${t("discount")} (${state.coupon})</dt><dd>−${money(c.discount)}</dd></div>`,
+            );
+          rows.push(
+            `<div class="flex justify-between"><dt class="text-muted">${t("delivery")}</dt><dd>${c.fee ? money(c.fee) : t("free")}</dd></div>`,
+          );
+          rows.push(
+            `<div class="flex justify-between border-t border-ink/10 pt-3 text-lg font-bold"><dt>${t("total")}</dt><dd>${money(c.total)}</dd></div>`,
+          );
+          const hint =
+            state.orderType === "delivery" &&
+            c.sub > 0 &&
+            c.sub < FREE_DELIVERY_MIN
+              ? `<p class="mt-3 text-xs text-muted">${t("free_hint", { amt: money(FREE_DELIVERY_MIN - c.sub) })}</p>`
+              : "";
+          return `<dl class="space-y-2 text-sm">${rows.join("")}</dl>${hint}`;
+        }
+        function renderCart() {
+          const c = totals();
+          const badge = $("#cartBadge");
+          badge.textContent = num(c.count);
+          $("#cartBtn").setAttribute(
+            "aria-label",
+            `${t("cart_aria")} (${c.count})`,
+          );
+          const empty = c.count === 0;
+          $("#cartEmpty").classList.toggle("hidden", !empty);
+          $("#cartEmpty").classList.toggle("flex", empty);
+          $("#cartItems").classList.toggle("hidden", empty);
+          $("#cartFoot").classList.toggle("hidden", empty);
+          $("#cartItems").innerHTML = c.items
+            .map(
+              ({ p, qty }) => `
+      <li class="flex gap-3 rounded-2xl border border-ink/10 bg-surface p-3">
+        <span class="imgwrap h-20 w-20 shrink-0 rounded-xl" data-emoji="🍽️"><img loading="lazy" src="${imgUrl(p.img, 160, 160)}" width="160" height="160" alt="" class="h-full w-full object-cover" onerror="imgFail(this)"></span>
+        <div class="flex min-w-0 flex-1 flex-col">
+          <div class="flex items-start justify-between gap-2"><p class="font-semibold leading-snug">${pname(p)}</p>
+            <button type="button" data-action="remove" data-id="${p.id}" aria-label="${t("remove_item", { name: pname(p) })}" class="-mr-1 -mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-full text-muted hover:bg-ink/10 hover:text-ink">${ic("trash", "h-4 w-4")}</button></div>
+          <p class="text-sm text-muted">${money(p.price)}</p>
+          <div class="mt-auto flex items-center justify-between pt-2">
+            <div class="flex items-center gap-1 rounded-full border border-ink/20">
+              <button type="button" data-action="dec" data-id="${p.id}" aria-label="${t("qty_dec", { name: pname(p) })}" class="grid h-10 w-10 place-items-center rounded-full hover:bg-ink/10">${ic("minus", "h-4 w-4")}</button>
+              <span class="w-6 text-center text-sm font-semibold" aria-label="${t("qty")}">${num(qty)}</span>
+              <button type="button" data-action="inc" data-id="${p.id}" aria-label="${t("qty_inc", { name: pname(p) })}" class="grid h-10 w-10 place-items-center rounded-full hover:bg-ink/10">${ic("plus", "h-4 w-4")}</button>
+            </div>
+            <p class="font-bold">${money(p.price * qty)}</p>
+          </div>
+        </div>
+      </li>`,
+            )
+            .join("");
+          // coupon area
+          const applied = !!state.coupon;
+          $("#couponForm").classList.toggle("hidden", applied);
+          $("#couponApplied").classList.toggle("hidden", !applied);
+          $("#couponApplied").classList.toggle("flex", applied);
+          $("#couponName").textContent = applied
+            ? `${state.coupon} (${COUPONS[state.coupon].type === "pct" ? num(COUPONS[state.coupon].v) + "%" : money(COUPONS[state.coupon].v)})`
+            : "";
+          $("#cartTotals").innerHTML = totalsHTML(c);
+          renderCheckoutSummary();
+        }
+        function renderCheckoutSummary() {
+          const c = totals();
+          $("#coItems").innerHTML = c.items
+            .map(
+              ({ p, qty }) =>
+                `<li class="flex justify-between gap-3"><span>${pname(p)} <span class="text-muted">× ${num(qty)}</span></span><span class="font-semibold">${money(p.price * qty)}</span></li>`,
+            )
+            .join("");
+          $("#coTotals").innerHTML = totalsHTML(c);
+        }
+
+        /* ------------------------ 7. CART & COUPONS ------------------------ */
+        function toast(msg, kind = "ok") {
+          const el = document.createElement("div");
+          el.className = `toast pointer-events-auto flex max-w-sm items-center gap-2 rounded-full px-5 py-3 text-sm font-medium shadow-xl ${kind === "err" ? "bg-[#8E2A14] text-white" : "bg-deep text-cream"}`;
+          el.innerHTML = `${ic(kind === "err" ? "info" : "check", "h-4 w-4 shrink-0 text-gold")}<span></span>`;
+          el.lastChild.textContent = msg;
+          $("#toasts").appendChild(el);
+          setTimeout(() => {
+            el.style.transition = "opacity .3s";
+            el.style.opacity = "0";
+            setTimeout(() => el.remove(), 320);
+          }, 2600);
+        }
+        const bumpBadge = () => {
+          const b = $("#cartBadge");
+          b.classList.remove("bump");
+          void b.offsetWidth;
+          b.classList.add("bump");
+        };
+        function addItem(id, qty = 1, silent = false) {
+          if (!BY_ID[id]) return;
+          state.cart[id] = (state.cart[id] || 0) + qty;
+          saveCart();
+          renderCart();
+          bumpBadge();
+          if (!silent) toast(t("t_added", { name: pname(BY_ID[id]) }));
+        }
+        function changeQty(id, delta) {
+          if (!state.cart[id]) return;
+          state.cart[id] += delta;
+          if (state.cart[id] <= 0) delete state.cart[id];
+          if (!Object.keys(state.cart).length) state.coupon = state.coupon; // keep coupon; discount is 0 on an empty cart
+          saveCart();
+          renderCart();
+        }
+        function removeItem(id) {
+          const name = pname(BY_ID[id]);
+          delete state.cart[id];
+          saveCart();
+          renderCart();
+          toast(t("t_removed", { name }));
+        }
+        function setCouponMsg(text, ok) {
+          const m = $("#couponMsg");
+          m.textContent = text;
+          m.className =
+            "mt-2 min-h-4 text-xs font-medium " +
+            (ok
+              ? "text-[#1F7A4D] dark:text-emerald-300"
+              : "text-[#B3361A] dark:text-red-300");
+        }
+        function applyCoupon(raw) {
+          const code = (raw || "").trim().toUpperCase();
+          if (!code) {
+            setCouponMsg(t("c_empty"), false);
+            toast(t("c_empty"), "err");
+            return false;
+          }
+          if (state.coupon) {
+            const k = state.coupon === code ? "c_dup" : "c_other";
+            setCouponMsg(t(k), false);
+            toast(t(k), "err");
+            return false;
+          }
+          if (!COUPONS[code]) {
+            setCouponMsg(t("c_bad"), false);
+            toast(t("c_bad"), "err");
+            return false;
+          }
+          state.coupon = code;
+          saveCart();
+          renderCart();
+          setCouponMsg(t("c_ok", { code }), true);
+          toast(t("c_ok", { code }));
+          return true;
+        }
+        function removeCoupon() {
+          state.coupon = null;
+          saveCart();
+          renderCart();
+          setCouponMsg("", true);
+          toast(t("c_removed"));
+        }
+
+        /* ----------------------- Layers (drawer/modals) ---------------------- */
+        const layers = [];
+        let lastFocus = null;
+        function openLayer(wrap, panelSel) {
+          lastFocus = document.activeElement;
+          wrap.classList.add("open");
+          wrap.setAttribute("aria-hidden", "false");
+          document.documentElement.classList.add("lock");
+          layers.push(wrap);
+          setTimeout(() => $(panelSel, wrap).focus(), 30);
+        }
+        function closeLayer(wrap, restore = true) {
+          wrap.classList.remove("open");
+          wrap.setAttribute("aria-hidden", "true");
+          const i = layers.indexOf(wrap);
+          if (i > -1) layers.splice(i, 1);
+          if (!layers.length) document.documentElement.classList.remove("lock");
+          if (restore && lastFocus && document.contains(lastFocus))
+            lastFocus.focus();
+        }
+        const cartLayer = $("#cartLayer"),
+          coLayer = $("#checkoutLayer");
+        const openCart = () => {
+          renderCart();
+          openLayer(cartLayer, "#cartPanel");
+        };
+        const closeCart = (r = true) => closeLayer(cartLayer, r);
+
+        /* ---------------------------- 8. CHECKOUT -------------------------- */
+        function openCheckout() {
+          if (!totals().count) {
+            toast(t("t_empty"), "err");
+            return;
+          }
+          closeCart(false);
+          $("#coFormView").classList.remove("hidden");
+          $("#coDoneView").classList.add("hidden");
+          state.lastOrder = null;
+          clearErrors();
+          renderPayOptions();
+          renderCheckoutSummary();
+          openLayer(coLayer, "#checkoutPanel");
+        }
+        const errIds = {
+          coName: "eName",
+          coPhone: "ePhone",
+          coEmail: "eEmail",
+          coAddr: "eAddr",
+        };
+        function clearErrors() {
+          Object.entries(errIds).forEach(([f, e]) => {
+            $("#" + e).textContent = "";
+            $("#" + f).removeAttribute("aria-invalid");
+          });
+        }
+        function validateCheckout() {
+          clearErrors();
+          const v = (id) => $("#" + id).value.trim();
+          const errs = {};
+          if (v("coName").length < 2) errs.coName = "e_name";
+          if (
+            !/^(?:\+?88)?01[3-9]\d{8}$/.test(v("coPhone").replace(/[\s-]/g, ""))
+          )
+            errs.coPhone = "e_phone";
+          if (
+            v("coEmail") &&
+            !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v("coEmail"))
+          )
+            errs.coEmail = "e_email";
+          if (state.orderType === "delivery" && v("coAddr").length < 6)
+            errs.coAddr = "e_addr";
+          Object.entries(errs).forEach(([f, k]) => {
+            $("#" + errIds[f]).textContent = t(k);
+            $("#" + f).setAttribute("aria-invalid", "true");
+          });
+          const first = Object.keys(errs)[0];
+          if (first) $("#" + first).focus();
+          return !first;
+        }
+        const genOrderId = () => {
+          const d = new Date(),
+            p = (n) => String(n).padStart(2, "0");
+          const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+          let r = "";
+          for (let i = 0; i < 4; i++)
+            r += chars[Math.floor(Math.random() * chars.length)];
+          return `BB-${String(d.getFullYear()).slice(2)}${p(d.getMonth() + 1)}${p(d.getDate())}-${r}`;
+        };
+        function placeOrder() {
+          const c = totals();
+          if (!c.count) {
+            toast(t("t_empty"), "err");
+            return;
+          }
+          if (!validateCheckout()) return;
+          state.lastOrder = {
+            id: genOrderId(),
+            name: $("#coName").value.trim(),
+            pay: state.pay,
+            type: state.orderType,
+            total: c.total,
+          };
+          // Simulated success → clear cart + coupon
+          state.cart = {};
+          state.coupon = null;
+          saveCart();
+          renderCart();
+          setCouponMsg("", true);
+          $("#checkoutForm").reset();
+          renderPayOptions();
+          renderConfirm();
+          $("#coFormView").classList.add("hidden");
+          $("#coDoneView").classList.remove("hidden");
+          $("#checkoutPanel").focus();
+          $("#checkoutLayer").scrollTo({ top: 0 });
+        }
+        function renderConfirm() {
+          const o = state.lastOrder;
+          if (!o) return;
+          const payKey = {
+            cod: "pay_cod",
+            bkash: "pay_bkash",
+            nagad: "pay_nagad",
+            card: "pay_card",
+          }[o.pay];
+          $("#coDoneView").innerHTML = `
+      <span class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-brand text-onbrand">${ic("check", "h-10 w-10")}</span>
+      <h3 class="mt-5 font-display text-3xl font-semibold">${t("ok_title")}</h3>
+      <p class="mx-auto mt-3 max-w-md text-muted"></p>
+      <dl class="mx-auto mt-8 max-w-sm space-y-3 rounded-2xl border border-ink/10 bg-surface p-5 text-left text-sm">
+        <div class="flex justify-between gap-4"><dt class="text-muted">${t("ok_id")}</dt><dd class="font-mono font-bold tracking-wider">${o.id}</dd></div>
+        <div class="flex justify-between gap-4"><dt class="text-muted">${t("ok_type")}</dt><dd class="font-semibold">${t(o.type === "delivery" ? "co_delivery" : "co_pickup")}</dd></div>
+        <div class="flex justify-between gap-4"><dt class="text-muted">${t("ok_pay")}</dt><dd class="font-semibold">${t(payKey)}</dd></div>
+        <div class="flex justify-between gap-4 border-t border-ink/10 pt-3 text-base"><dt class="font-semibold">${t("ok_total")}</dt><dd class="font-bold">${money(o.total)}</dd></div>
+      </dl>
+      <button type="button" data-action="done" class="mt-8 h-12 rounded-full bg-brand px-8 font-semibold text-onbrand">${t("ok_close")}</button>`;
+          $("#coDoneView p").textContent = t("ok_p", { name: o.name });
+        }
+
+        /* --------------------------- 9. UI WIRING -------------------------- */
+        function applyTheme(announce) {
+          document.documentElement.classList.toggle(
+            "dark",
+            state.theme === "dark",
+          );
+          $('meta[name="theme-color"]').setAttribute(
+            "content",
+            state.theme === "dark" ? "#0F1C19" : "#F7F3EA",
+          );
+          store.set("bb_theme", state.theme);
+          if (announce)
+            toast(t(state.theme === "dark" ? "t_theme_d" : "t_theme_l"));
+        }
+        function applyLang() {
+          document.documentElement.lang = state.lang;
+          document.title = t("meta_title");
+          $$("[data-i18n]").forEach((el) => {
+            el.textContent = t(el.dataset.i18n);
+          });
+          $$("[data-i18n-ph]").forEach((el) => {
+            el.placeholder = t(el.dataset.i18nPh);
+          });
+          $$("[data-i18n-aria]").forEach((el) =>
+            el.setAttribute("aria-label", t(el.dataset.i18nAria)),
+          );
+          const bn = state.lang === "bn";
+          $("#lgEn").className = bn ? "opacity-60" : "font-semibold";
+          $("#lgBn").className = bn ? "font-semibold" : "opacity-60";
+          $("#stCount").textContent =
+            num(PRODUCTS.length - (PRODUCTS.length % 10)) + "+";
+          const hp = BY_ID.c4;
+          $("#heroPickName").textContent = pname(hp);
+          $("#heroPickBtn").textContent =
+            `${money(hp.price)} · ${t("hero_add")}`;
+          store.set("bb_lang", state.lang);
+          renderTabs();
+          renderMenu();
+          renderAbout();
+          renderOffers();
+          renderWhy();
+          renderReviews();
+          renderFaq();
+          renderContact();
+          renderFooter();
+          renderPayOptions();
+          renderCart();
+          renderConfirm();
+        }
+
+        // Mobile nav
+        function setMobileNav(open) {
+          $("#mobileNav").classList.toggle("hidden", !open);
+          $("#menuBtn").setAttribute("aria-expanded", String(open));
+          $("#icMenu").classList.toggle("hidden", open);
+          $("#icClose").classList.toggle("hidden", !open);
+        }
+        const goTo = (id) => {
+          const el = document.getElementById(id);
+          if (el)
+            el.scrollIntoView({
+              behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+                ? "auto"
+                : "smooth",
+            });
+        };
+
+        // Single delegated click handler
+        document.addEventListener("click", (e) => {
+          const a = e.target.closest("[data-action]");
+          if (a) {
+            const id = a.dataset.id;
+            switch (a.dataset.action) {
+              case "add":
+                addItem(id);
+                break;
+              case "inc":
+                changeQty(id, 1);
+                break;
+              case "dec":
+                changeQty(id, -1);
+                break;
+              case "remove":
+                removeItem(id);
+                break;
+              case "open-cart":
+                openCart();
+                break;
+              case "close-cart":
+                closeCart();
+                break;
+              case "checkout":
+                openCheckout();
+                break;
+              case "close-checkout":
+                closeLayer(coLayer);
+                break;
+              case "done":
+                closeLayer(coLayer);
+                $("#coFormView").classList.remove("hidden");
+                $("#coDoneView").classList.add("hidden");
+                state.lastOrder = null;
+                goTo("home");
+                break;
+              case "browse":
+                closeCart(false);
+                goTo("menu");
+                break;
+              case "order-now":
+                goTo("menu");
+                break;
+              case "remove-coupon":
+                removeCoupon();
+                break;
+              case "toggle-theme":
+                state.theme = state.theme === "dark" ? "light" : "dark";
+                applyTheme(true);
+                break;
+              case "toggle-lang":
+                state.lang = state.lang === "en" ? "bn" : "en";
+                applyLang();
+                toast(t("t_lang"));
+                break;
+              case "toggle-menu":
+                setMobileNav($("#mobileNav").classList.contains("hidden"));
+                break;
+              case "filter":
+                state.cat = a.dataset.cat;
+                renderTabs();
+                renderMenu();
+                break;
+              case "filter-go":
+                state.cat = a.dataset.cat;
+                renderTabs();
+                renderMenu();
+                goTo("menu");
+                break;
+              case "faq": {
+                const i = +a.dataset.i;
+                state.faqOpen = state.faqOpen === i ? -1 : i;
+                renderFaq();
+                $("#fq" + i).focus();
+                break;
+              }
+              case "social":
+                toast(t("social_ph"));
+                break;
+              case "offer": {
+                const o = OFFERS.find((x) => x.n === +a.dataset.n);
+                if (o.ids) {
+                  o.ids.forEach((i) => addItem(i, 1, true));
+                  toast(t("t_combo"));
+                } else {
+                  openCart();
+                  applyCoupon(o.coupon);
+                }
+                break;
+              }
+            }
+            return;
+          }
+          if (e.target.closest(".mnav")) setMobileNav(false);
+        });
+
+        // Forms
+        $("#couponForm").addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (applyCoupon($("#couponInput").value))
+            $("#couponInput").value = "";
+        });
+        $("#checkoutForm").addEventListener("submit", (e) => {
+          e.preventDefault();
+          placeOrder();
+        });
+        $("#checkoutForm").addEventListener("change", (e) => {
+          if (e.target.name === "otype") {
+            state.orderType = e.target.value;
+            renderPayOptions();
+            renderCart();
+          }
+          if (e.target.name === "pay") {
+            state.pay = e.target.value;
+            $("#payNote").textContent =
+              state.pay === "cod" ? t("pay_note_cod") : t("pay_note_demo");
+          }
+        });
+        $("#contactForm").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const ok = $("#cfName").value.trim() && $("#cfMsg").value.trim();
+          $("#cfErr").textContent = ok ? "" : t("con_err");
+          if (ok) {
+            e.target.reset();
+            toast(t("con_ok"));
+          } else {
+            ($("#cfName").value.trim() ? $("#cfMsg") : $("#cfName")).focus();
+          }
+        });
+        $("#newsForm").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const good = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(
+            $("#newsEmail").value.trim(),
+          );
+          $("#newsMsg").textContent = t(good ? "news_ok" : "news_bad");
+          if (good) e.target.reset();
+        });
+
+        // Keyboard: Esc closes top layer / mobile nav; Tab is trapped inside open layers
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            const top = layers[layers.length - 1];
+            if (top) {
+              closeLayer(top);
+              return;
+            }
+            if (!$("#mobileNav").classList.contains("hidden")) {
+              setMobileNav(false);
+              $("#menuBtn").focus();
+            }
+          }
+          if (e.key === "Tab" && layers.length) {
+            const top = layers[layers.length - 1];
+            const f = $$(
+              'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+              top,
+            ).filter((el) => el.offsetParent !== null && !el.disabled);
+            if (!f.length) return;
+            const first = f[0],
+              last = f[f.length - 1];
+            if (
+              e.shiftKey &&
+              (document.activeElement === first ||
+                document.activeElement === $('[role="dialog"]', top))
+            ) {
+              e.preventDefault();
+              last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        });
+
+        // Header shadow on scroll, active nav link, reveal-on-scroll
+        const header = $("#siteHeader");
+        const onScroll = () =>
+          header.classList.toggle("shadow-md", window.scrollY > 10);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+        if ("IntersectionObserver" in window) {
+          const links = $$("#navLinks a");
+          const secObs = new IntersectionObserver(
+            (entries) =>
+              entries.forEach((en) => {
+                if (en.isIntersecting)
+                  links.forEach((l) => {
+                    const on = l.getAttribute("href") === "#" + en.target.id;
+                    l.classList.toggle("bg-ink/10", on);
+                    on
+                      ? l.setAttribute("aria-current", "true")
+                      : l.removeAttribute("aria-current");
+                  });
+              }),
+            { rootMargin: "-45% 0px -50% 0px" },
+          );
+          ["home", "about", "menu", "offers", "reviews", "contact"].forEach(
+            (id) => secObs.observe(document.getElementById(id)),
+          );
+          const revObs = new IntersectionObserver(
+            (es, o) =>
+              es.forEach((en) => {
+                if (en.isIntersecting) {
+                  en.target.classList.add("in");
+                  o.unobserve(en.target);
+                }
+              }),
+            { threshold: 0.12 },
+          );
+          $$(".reveal").forEach((el) => revObs.observe(el));
+        } else {
+          $$(".reveal").forEach((el) => el.classList.add("in"));
+        }
+
+        // Boot
+        hydrateIcons();
+        applyTheme(false);
+        applyLang();
+      })();
+    </script>
+  </body>
+</html>
